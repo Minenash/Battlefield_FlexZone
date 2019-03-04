@@ -15,12 +15,12 @@ Flex is integrated by the school, by using a 4-block day.
 
 The Flex Block is split into 2, Flex A and Flex B. The classes you go to for Flex A and Flex B are
 rotated through under the following sequence:
-- A: 1 & B: 2
-- A: 3 & B: 6
-- A: 4 & B: 7
-- A: 1 & B: 2
-- A: 3 & B: 6
-- A: 5 & B: 7
+- 1 and 2
+- 3 and 6
+- 4 and 7
+- 1 and 2
+- 3 and 6
+- 5 and 7
 
 ## What are Flex Requests
 
