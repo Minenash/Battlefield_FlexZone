@@ -61,6 +61,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       alignment: Alignment(1.0, 0.0),
                       padding: EdgeInsets.only(top: 15.0, left: 20.0),
                       child: InkWell(
+                        onTap: () {forgotPassword();},
                         child: Text(
                           'Forgot Password',
                           style: TextStyle(
@@ -119,6 +120,14 @@ class _LoginScreenState extends State<LoginScreen> {
     _scaffoldKey.currentState.showSnackBar(new SnackBar(
       content: new Text(text),
       backgroundColor: Colors.red,
+    ));
+  }
+
+  void forgotPassword() {
+    //TODO: Send Email Based on Email field
+    _scaffoldKey.currentState.showSnackBar(new SnackBar(
+      content: new Text("Email Sent"),
+      backgroundColor: Colors.green,
     ));
   }
 }
