@@ -1,4 +1,4 @@
-enum UserType {STUDENT, TEACHER, ADMIN}
+enum UserType {STUDENT, TEACHER, ADMIN, NONE}
 
 class User {
   String email;

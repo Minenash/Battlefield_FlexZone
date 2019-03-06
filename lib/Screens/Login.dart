@@ -20,6 +20,8 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
 
+    loadUser();
+
     TextField tf_email = TextField(
       controller: emailController,
       decoration: InputDecoration(
@@ -123,14 +125,14 @@ class _LoginScreenState extends State<LoginScreen> {
       case VerifyResults.NO_MATCH:        showError("The email or password is incorrect");          break;
       case VerifyResults.DATABASE_ERROR:  showError("A Database Error occurred, try again later."); break;
 
-      case VerifyResults.STUDENT:         setCurrentUser(emailController.text, passController.text, result);
-                                          Navigator.of(context).pushNamed('/stu_cr');               break;
+      case VerifyResults.STUDENT:         setCurrentUser(emailController.text, passController.text, 1);
+                                          Navigator.of(context).pushReplacementNamed('/stu_cr');    break;
 
-      case VerifyResults.TEACHER:         setCurrentUser(emailController.text, passController.text, result);
-                                          Navigator.of(context).pushNamed('/tea_cr');               break;
+      case VerifyResults.TEACHER:         setCurrentUser(emailController.text, passController.text, 2);
+                                          Navigator.of(context).pushReplacementNamed('/tea_cr');     break;
 
-      case VerifyResults.ADMIN:           setCurrentUser(emailController.text, passController.text, result);
-                                          Navigator.of(context).pushNamed('/adm_cr');               break;
+      case VerifyResults.ADMIN:           setCurrentUser(emailController.text, passController.text, 3);
+                                          Navigator.of(context).pushReplacementNamed('/adm_cr');     break;
 
       default:                            showError("Can't access the server, are you connected to the internet?");
     }
