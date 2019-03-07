@@ -19,9 +19,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-
-    loadUser();
-
     TextField tf_email = TextField(
       controller: emailController,
       decoration: InputDecoration(

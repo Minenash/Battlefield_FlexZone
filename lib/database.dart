@@ -39,24 +39,24 @@ void setCurrentUser(String email, String hashpass, int itype) async {
 
 Future<bool> loadUser() async {
 
-  String email = await FlutterKeychain.get(key: "email");                        print(email);
+  String email = await FlutterKeychain.get(key: "email");
 
   if (await email == null)
     return true;
 
-  String hashpass = await FlutterKeychain.get(key: "hashpass");                  print(hashpass);
+  String hashpass = await FlutterKeychain.get(key: "hashpass");
 
   if (await hashpass == null)
     return true;
 
-  String stype = await FlutterKeychain.get(key: "type");                         print(stype);
+  String stype = await FlutterKeychain.get(key: "type");
 
   if (await stype == null)
     return true;
 
-  int itype = await int.parse(stype, onError: (s) => 0);                               print(itype);
+  int itype = int.parse(stype, onError: (s) => 0);
 
-  UserType type = await itype == 1 ? UserType.STUDENT
+  UserType type = itype == 1 ? UserType.STUDENT
       : itype == 2 ? UserType.TEACHER
       : UserType.ADMIN;
 
