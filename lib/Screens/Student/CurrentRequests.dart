@@ -16,30 +16,30 @@ class STU_CurrentRequest extends StatefulWidget {
 }
 
 class STU_CurrentRequestState extends State<STU_CurrentRequest> {
-//20 char Limit
-  List<Widget> listItems;
-  List<Widget> listItems2;
+  static STU_CurrentRequestState access;
+
+  //20 char Limit
+  List<Widget> listItems = [
+    createCard("Mr. Merrmans", "Ms. May", Responce.approved, Responce.denied, "No Comment", null, "2/28", "11:32 AM"),
+    createCard("Mr. Merrmans", "Ms. May", Responce.denied, Responce.waiting, "Ugg", "This can't happen", "10:24 PM", ""),
+    createCard("Mr. Merrmans", "Ms. May", Responce.waiting, Responce.approved, null, null, "3/3", "Yesterday"),
+    createCard("Mr. Merrmans", "Ms. May", Responce.waiting, Responce.waiting, null, null, "", ""),
+    createCard("Mr. Merrmans", "Ms. May", Responce.approved, Responce.approved, null, null, "10:24 AM", "11:32 PM"),
+  ];
+
+  List<RequestCardMS> listItems2 = [
+    RequestCardMS(0,"Mr. Merrmans", "Ms. May", Responce.approved, Responce.denied, "No Comment", null, "2/28", "11:32 AM"),
+    RequestCardMS(1,"Mr. Merrmans", "Ms. May", Responce.denied, Responce.waiting, "Ugg", "This can't happen", "10:24 PM", ""),
+    RequestCardMS(2,"Mr. Merrmans", "Ms. May", Responce.waiting, Responce.approved, null, null, "3/3", "Yesterday"),
+    RequestCardMS(3,"Mr. Merrmans", "Ms. May", Responce.waiting, Responce.waiting, null, null, "", ""),
+    RequestCardMS(4,"Mr. Merrmans", "Ms. May", Responce.approved, Responce.approved, null, null, "10:24 AM", "11:32 PM"),
+  ];
 
   bool ms_enabled = false;
 
   @override
   Widget build(BuildContext context) {
-
-    listItems = [
-      createCard("Mr. Merrmans", "Ms. May", Responce.approved, Responce.denied, "No Comment", null, "2/28", "11:32 AM"),
-      createCard("Mr. Merrmans", "Ms. May", Responce.denied, Responce.waiting, "Ugg", "This can't happen", "10:24 PM", ""),
-      createCard("Mr. Merrmans", "Ms. May", Responce.waiting, Responce.approved, null, null, "3/3", "Yesterday"),
-      createCard("Mr. Merrmans", "Ms. May", Responce.waiting, Responce.waiting, null, null, "", ""),
-      createCard("Mr. Merrmans", "Ms. May", Responce.approved, Responce.approved, null, null, "10:24 AM", "11:32 PM"),
-    ];
-
-    listItems2 = [
-      RequestCardMS("Mr. Merrmans", "Ms. May", Responce.approved, Responce.denied, "No Comment", null, "2/28", "11:32 AM"),
-      RequestCardMS("Mr. Merrmans", "Ms. May", Responce.denied, Responce.waiting, "Ugg", "This can't happen", "10:24 PM", ""),
-      RequestCardMS("Mr. Merrmans", "Ms. May", Responce.waiting, Responce.approved, null, null, "3/3", "Yesterday"),
-      RequestCardMS("Mr. Merrmans", "Ms. May", Responce.waiting, Responce.waiting, null, null, "", ""),
-      RequestCardMS("Mr. Merrmans", "Ms. May", Responce.approved, Responce.approved, null, null, "10:24 AM", "11:32 PM"),
-    ];
+    access = this;
 
     if (ms_enabled)
       return multiselect();
@@ -83,6 +83,43 @@ class STU_CurrentRequestState extends State<STU_CurrentRequest> {
     );
   }
 
+  void setMSAppBarCheckBoxSymbol() {
+    setState(() {
+      int numSeleceted = RequestCardMS.selected.length;
+
+      if (numSeleceted == 0)
+        mscheckboxicon = Icons.check_box_outline_blank;
+      else if (numSeleceted == listItems2.length)
+        mscheckboxicon = Icons.check_box;
+      else
+        mscheckboxicon = Icons.indeterminate_check_box;
+    });
+  }
+
+  IconData mscheckboxicon = Icons.check_box_outline_blank;
+
+  void onMSCheckBoxPress() {
+    RequestCardMSState.setAllSelected( mscheckboxicon != Icons.check_box );
+    setMSAppBarCheckBoxSymbol();
+  }
+
+  void msArchive() {
+    List<Widget> toremove = List();
+    List<Widget> toremove2 = List();
+    setState(() {
+      ms_enabled = false;
+      for (int index in RequestCardMS.selected) {
+        toremove.add(listItems[index]);
+        toremove2.add(listItems[index]);
+      }
+      for (Widget w in toremove)
+        listItems.remove(w);
+      for (Widget w in toremove2)
+        listItems2.remove(w);
+    });
+
+  }
+
   Widget multiselect() {
     return new Scaffold(
         appBar: AppBar(
@@ -91,8 +128,9 @@ class STU_CurrentRequestState extends State<STU_CurrentRequest> {
           actions: <Widget>[
             IconButton(icon: Icon(Icons.arrow_back), onPressed: () {setState(() {
               ms_enabled = false;
-            });}, tooltip: "CheckBox"),
-            IconButton(icon: Icon(Icons.archive), onPressed: () {}, tooltip: "CheckBox"),
+            });}, tooltip: "Exit MultiSelect"),
+            IconButton(icon: Icon(Icons.archive), onPressed: () {msArchive();}, tooltip: "Archive"),
+            IconButton(icon: Icon(mscheckboxicon), onPressed: () {onMSCheckBoxPress();}, tooltip: ""),
           ],
         ),
         floatingActionButtonLocation:
@@ -168,6 +206,7 @@ class STU_CurrentRequestState extends State<STU_CurrentRequest> {
   void archiveItem(index){
     setState((){
       listItems.removeAt(index);
+      listItems2.removeAt(index);
     });
   }
 
