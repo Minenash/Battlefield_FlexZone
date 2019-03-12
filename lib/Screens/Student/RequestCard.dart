@@ -15,7 +15,7 @@ Widget createCard(String teacher_1, String teacher_2,
               String reason_1,  String reason_2,
               String time_1,    String time_2) {
 
-  Icon icon = _getMainIcon(res_1, res_2);
+  Icon icon = getMainIcon(res_1, res_2);
   Icon icon_1, icon_2;
 
   if (res_1 == Responce.denied && res_2 == Responce.waiting) {
@@ -27,16 +27,16 @@ Widget createCard(String teacher_1, String teacher_2,
     icon_2 = DENIED_ICON;
   }
   else {
-    icon_1 = _getTeacherIcon(res_1);
-    icon_2 = _getTeacherIcon(res_2);
+    icon_1 = getTeacherIcon(res_1);
+    icon_2 = getTeacherIcon(res_2);
   }
 
-  Widget baseCard = _createBaseCard(icon, icon_1, icon_2, teacher_1, teacher_2, time_1, time_2);
+  Widget baseCard = createBaseCard(icon, icon_1, icon_2, teacher_1, teacher_2, time_1, time_2);
 
   List<Widget> expanded = new List();
 
-  if (reason_1 != null) expanded.add(_createReasonRow(teacher_1, reason_1));
-  if (reason_2 != null) expanded.add(_createReasonRow(teacher_2, reason_2));
+  if (reason_1 != null) expanded.add(createReasonRow(teacher_1, reason_1));
+  if (reason_2 != null) expanded.add(createReasonRow(teacher_2, reason_2));
 
   if (expanded.isEmpty)
     return Card( child: baseCard );
@@ -70,19 +70,19 @@ Widget createCard(String teacher_1, String teacher_2,
 
 
 
-Icon _getMainIcon(Responce res_1, Responce res_2) {
+Icon getMainIcon(Responce res_1, Responce res_2) {
   return res_1 == Responce.denied || res_2 == Responce.denied? DENIED_ICON
        : res_1 == Responce.waiting || res_2 == Responce.waiting? WAITING_ICON
        : ALL_APPROVED_ICON;
 }
 
-Icon _getTeacherIcon(Responce responce) {
+Icon getTeacherIcon(Responce responce) {
   return responce == Responce.approved ? APPROVED_ICON
        : responce == Responce.denied   ? DENIED_ICON
        :                                 WAITING_ICON;
 }
 
-Widget _createBaseCard(Icon icon, Icon icon_1, Icon icon_2,
+Widget createBaseCard(Icon icon, Icon icon_1, Icon icon_2,
                        String teacher_1, String teacher_2,
                        String time_1,    String time_2) {
   return ListTile(
@@ -90,14 +90,14 @@ Widget _createBaseCard(Icon icon, Icon icon_1, Icon icon_2,
     title: Text("$teacher_1 to $teacher_2"),
     subtitle: Column(
       children: <Widget>[
-        _createResponceRow(icon_1, teacher_1, time_1),
-        _createResponceRow(icon_2, teacher_2, time_2),
+        createResponceRow(icon_1, teacher_1, time_1),
+        createResponceRow(icon_2, teacher_2, time_2),
       ],
     ),
   );
 }
 
-Widget _createResponceRow(Icon icon, String teacher, String time) {
+Widget createResponceRow(Icon icon, String teacher, String time) {
   return Row(
       mainAxisSize: MainAxisSize.max,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -115,7 +115,7 @@ Widget _createResponceRow(Icon icon, String teacher, String time) {
   );
 }
 
-Widget _createReasonRow(String teacher, String reason) {
+Widget createReasonRow(String teacher, String reason) {
   return Row(
       children: <Widget>[
         Flexible(

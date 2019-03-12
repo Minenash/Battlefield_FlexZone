@@ -1,6 +1,8 @@
 import 'package:flutter_keychain/flutter_keychain.dart';
 import 'package:flutter/material.dart';
+import 'RequestCardMultiSelect.dart';
 import 'RequestCard.dart';
+import 'package:flex_out/Screens/Login.dart';
 
 
 enum MenuAction { log_out, classes, language }
@@ -10,28 +12,60 @@ class STU_CurrentRequest extends StatefulWidget {
   final String title;
 
   @override
-  _STU_CurrentRequestState createState() => _STU_CurrentRequestState();
+  STU_CurrentRequestState createState() => STU_CurrentRequestState();
 }
 
-class _STU_CurrentRequestState extends State<STU_CurrentRequest> {
+class STU_CurrentRequestState extends State<STU_CurrentRequest> {
 //20 char Limit
-  List<Widget> listItems = [
-    createCard("Mr. Merrmans", "Ms. May", Responce.approved, Responce.denied, "No Comment", null, "2/28", "11:32 AM"),
-    createCard("Mr. Merrmans", "Ms. May", Responce.denied, Responce.waiting, "Ugg", "This can't happen", "10:24 PM", ""),
-    createCard("Mr. Merrmans", "Ms. May", Responce.waiting, Responce.approved, null, null, "3/3", "Yesterday"),
-    createCard("Mr. Merrmans", "Ms. May", Responce.waiting, Responce.waiting, null, null, "", ""),
-    createCard("Mr. Merrmans", "Ms. May", Responce.approved, Responce.approved, null, null, "10:24 AM", "11:32 PM"),
-  ];
+  List<Widget> listItems;
+  List<Widget> listItems2;
+
+  bool ms_enabled = false;
 
   @override
   Widget build(BuildContext context) {
+
+    listItems = [
+      createCard("Mr. Merrmans", "Ms. May", Responce.approved, Responce.denied, "No Comment", null, "2/28", "11:32 AM"),
+      createCard("Mr. Merrmans", "Ms. May", Responce.denied, Responce.waiting, "Ugg", "This can't happen", "10:24 PM", ""),
+      createCard("Mr. Merrmans", "Ms. May", Responce.waiting, Responce.approved, null, null, "3/3", "Yesterday"),
+      createCard("Mr. Merrmans", "Ms. May", Responce.waiting, Responce.waiting, null, null, "", ""),
+      createCard("Mr. Merrmans", "Ms. May", Responce.approved, Responce.approved, null, null, "10:24 AM", "11:32 PM"),
+    ];
+
+    listItems2 = [
+      RequestCardMS("Mr. Merrmans", "Ms. May", Responce.approved, Responce.denied, "No Comment", null, "2/28", "11:32 AM"),
+      RequestCardMS("Mr. Merrmans", "Ms. May", Responce.denied, Responce.waiting, "Ugg", "This can't happen", "10:24 PM", ""),
+      RequestCardMS("Mr. Merrmans", "Ms. May", Responce.waiting, Responce.approved, null, null, "3/3", "Yesterday"),
+      RequestCardMS("Mr. Merrmans", "Ms. May", Responce.waiting, Responce.waiting, null, null, "", ""),
+      RequestCardMS("Mr. Merrmans", "Ms. May", Responce.approved, Responce.approved, null, null, "10:24 AM", "11:32 PM"),
+    ];
+
+    if (ms_enabled)
+      return multiselect();
+    else
+      return normal();
+
+
+  }
+
+  Widget normal() {
     return new Scaffold(
-        appBar: AppBar(title: Text("Current Requests")),
+        appBar: AppBar(
+          title: Text("Current Requests"),
+          backgroundColor: BF_PURPLE,
+          actions: <Widget>[
+            IconButton(icon: Icon(Icons.check_box_outline_blank), onPressed: () {setState(() {
+              ms_enabled = true;
+            });}, tooltip: "CheckBox")
+          ],
+        ),
         floatingActionButtonLocation:
         FloatingActionButtonLocation.centerDocked,
         floatingActionButton: FloatingActionButton(
           tooltip: "Create New Request",
-          child: const Icon(Icons.create), onPressed: () {},),
+          child: const Icon(Icons.create), onPressed: () {},
+          backgroundColor: BF_PURPLE,),
         bottomNavigationBar: BottomAppBar(
           shape: CircularNotchedRectangle(),
           notchMargin: 4.0,
@@ -46,6 +80,41 @@ class _STU_CurrentRequestState extends State<STU_CurrentRequest> {
         ),
         backgroundColor: Colors.grey[300],
         body: _buildListView()
+    );
+  }
+
+  Widget multiselect() {
+    return new Scaffold(
+        appBar: AppBar(
+          title: Text("Current Requests"),
+          backgroundColor: BF_PURPLE,
+          actions: <Widget>[
+            IconButton(icon: Icon(Icons.arrow_back), onPressed: () {setState(() {
+              ms_enabled = false;
+            });}, tooltip: "CheckBox"),
+            IconButton(icon: Icon(Icons.archive), onPressed: () {}, tooltip: "CheckBox"),
+          ],
+        ),
+        floatingActionButtonLocation:
+        FloatingActionButtonLocation.centerDocked,
+        floatingActionButton: FloatingActionButton(
+          tooltip: "Create New Request",
+          child: const Icon(Icons.create), onPressed: () {},
+          backgroundColor: BF_PURPLE,),
+        bottomNavigationBar: BottomAppBar(
+          shape: CircularNotchedRectangle(),
+          notchMargin: 4.0,
+          child: new Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              IconButton(icon: Icon(Icons.archive), onPressed: () {}, tooltip: "Archive"),
+              _menuButton()
+            ],
+          ),
+        ),
+        backgroundColor: Colors.grey[300],
+        body: ListView(children: listItems2)
     );
   }
 
@@ -110,11 +179,11 @@ class _STU_CurrentRequestState extends State<STU_CurrentRequest> {
 
   static Widget _dismiss(bool secondary) {
     return Card(
-      color: Colors.green,
+      color: secondary? Colors.red : Colors.green,
       child: Container(
           alignment: secondary? Alignment.centerRight : Alignment.centerLeft,
           padding: secondary? EdgeInsets.only(right: 25) : EdgeInsets.only(left: 25),
-          child: Icon(Icons.archive)
+          child: secondary? Icon(Icons.close) : Icon(Icons.archive)
       ),
     );
   }
