@@ -1,0 +1,1 @@
+enum Responce {approved, denied, waiting}

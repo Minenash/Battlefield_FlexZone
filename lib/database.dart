@@ -1,4 +1,7 @@
 import 'package:flex_out/User.dart';
+import 'package:flex_out/Request.dart';
+import 'package:flex_out/Responce.dart';
+import 'package:flex_out/Class.dart';
 import 'package:flutter_keychain/flutter_keychain.dart';
 
 enum VerifyResults {ADMIN, TEACHER, STUDENT, NO_MATCH, DATABASE_ERROR}
@@ -54,6 +57,7 @@ Future<bool> loadUser() async {
   if (await stype == null)
     return true;
 
+  // ignore: deprecated_member_use
   int itype = int.parse(stype, onError: (s) => 0);
 
   UserType type = itype == 1 ? UserType.STUDENT
@@ -64,3 +68,20 @@ Future<bool> loadUser() async {
 
   return true;
 }
+
+Map<int,Request> getRequests(String email) {
+  //TODO: Get from database and parse
+
+  Map<int,Request> requests = new Map();
+  requests[0] = new Request(0, null, "Ryan Frank", "Test Retake", true, FlexClass(0,2, "Calc", "Merrmans"), FlexClass(1,3, "History", "Ganow"),
+                          Responce.approved, Responce.waiting, "12:34 AM", null,null, null);
+
+  requests[1] = new Request(1, null, "Ryan Frank", "Study Help", true, FlexClass(2,4, "Physics", "Mars"), FlexClass(3,7, "Networking", "Metts"),
+      Responce.approved, Responce.approved, "12:34 AM", "Yesterday",null, null);
+
+  requests[2] = new Request(2, null, "Ryan Frank", "IDK Anymore", true, FlexClass(4,1, "Class A", "Teacher A"), FlexClass(4,6, "Class B", "Teacher B"),
+      Responce.approved, Responce.denied, "12:34 AM", "Yesterday",null, null);
+
+  return requests;
+}
+

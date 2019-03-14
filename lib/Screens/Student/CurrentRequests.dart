@@ -2,8 +2,11 @@ import 'package:flutter_keychain/flutter_keychain.dart';
 import 'package:flutter/material.dart';
 import 'RequestCardMultiSelect.dart';
 import 'RequestCard.dart';
+import 'package:flex_out/database.dart';
 import 'package:flex_out/Screens/Login.dart';
-
+import 'package:flex_out/Request.dart';
+import 'package:flex_out/User.dart';
+import 'package:flex_out/Screens/Student/RequestCard_Helper.dart';
 
 enum MenuAction { log_out, classes, language }
 
@@ -19,27 +22,17 @@ class STU_CurrentRequestState extends State<STU_CurrentRequest> {
   static STU_CurrentRequestState access;
 
   //20 char Limit
-  List<Widget> listItems = [
-    createCard("Mr. Merrmans", "Ms. May", Responce.approved, Responce.denied, "No Comment", null, "2/28", "11:32 AM"),
-    createCard("Mr. Merrmans", "Ms. May", Responce.denied, Responce.waiting, "Ugg", "This can't happen", "10:24 PM", ""),
-    createCard("Mr. Merrmans", "Ms. May", Responce.waiting, Responce.approved, null, null, "3/3", "Yesterday"),
-    createCard("Mr. Merrmans", "Ms. May", Responce.waiting, Responce.waiting, null, null, "", ""),
-    createCard("Mr. Merrmans", "Ms. May", Responce.approved, Responce.approved, null, null, "10:24 AM", "11:32 PM"),
-  ];
-
-  List<RequestCardMS> listItems2 = [
-    RequestCardMS(0,"Mr. Merrmans", "Ms. May", Responce.approved, Responce.denied, "No Comment", null, "2/28", "11:32 AM"),
-    RequestCardMS(1,"Mr. Merrmans", "Ms. May", Responce.denied, Responce.waiting, "Ugg", "This can't happen", "10:24 PM", ""),
-    RequestCardMS(2,"Mr. Merrmans", "Ms. May", Responce.waiting, Responce.approved, null, null, "3/3", "Yesterday"),
-    RequestCardMS(3,"Mr. Merrmans", "Ms. May", Responce.waiting, Responce.waiting, null, null, "", ""),
-    RequestCardMS(4,"Mr. Merrmans", "Ms. May", Responce.approved, Responce.approved, null, null, "10:24 AM", "11:32 PM"),
-  ];
+  Map<int,Request> requests = getRequests(User.current.email);
+  List<Widget> listItems;
 
   bool ms_enabled = false;
 
   @override
   Widget build(BuildContext context) {
     access = this;
+
+    listItems = new List();
+    set_no_expandables(requests);
 
     if (ms_enabled)
       return multiselect();
@@ -50,6 +43,9 @@ class STU_CurrentRequestState extends State<STU_CurrentRequest> {
   }
 
   Widget normal() {
+    for(Request r in requests.values)
+      listItems.add(STU_RequestCard(r));
+
     return new Scaffold(
         appBar: AppBar(
           title: Text("Current Requests"),
@@ -85,11 +81,11 @@ class STU_CurrentRequestState extends State<STU_CurrentRequest> {
 
   void setMSAppBarCheckBoxSymbol() {
     setState(() {
-      int numSeleceted = RequestCardMS.selected.length;
+      int numSeleceted = STU_RequestCardMS.selected.length;
 
       if (numSeleceted == 0)
         mscheckboxicon = Icons.check_box_outline_blank;
-      else if (numSeleceted == listItems2.length)
+      else if (numSeleceted == listItems.length)
         mscheckboxicon = Icons.check_box;
       else
         mscheckboxicon = Icons.indeterminate_check_box;
@@ -99,28 +95,23 @@ class STU_CurrentRequestState extends State<STU_CurrentRequest> {
   IconData mscheckboxicon = Icons.check_box_outline_blank;
 
   void onMSCheckBoxPress() {
-    RequestCardMSState.setAllSelected( mscheckboxicon != Icons.check_box );
+    STU_RequestCardMSState.setAllSelected( mscheckboxicon != Icons.check_box );
     setMSAppBarCheckBoxSymbol();
   }
 
   void msArchive() {
-    List<Widget> toremove = List();
-    List<Widget> toremove2 = List();
     setState(() {
       ms_enabled = false;
-      for (int index in RequestCardMS.selected) {
-        toremove.add(listItems[index]);
-        toremove2.add(listItems[index]);
-      }
-      for (Widget w in toremove)
-        listItems.remove(w);
-      for (Widget w in toremove2)
-        listItems2.remove(w);
+      for (int id in STU_RequestCardMS.selected)
+        requests.remove(id);
     });
 
   }
 
   Widget multiselect() {
+    for(Request r in requests.values)
+      listItems.add(STU_RequestCardMS(r));
+
     return new Scaffold(
         appBar: AppBar(
           title: Text("Current Requests"),
@@ -152,7 +143,7 @@ class STU_CurrentRequestState extends State<STU_CurrentRequest> {
           ),
         ),
         backgroundColor: Colors.grey[300],
-        body: ListView(children: listItems2)
+        body: ListView(children: listItems)
     );
   }
 
@@ -203,17 +194,16 @@ class STU_CurrentRequestState extends State<STU_CurrentRequest> {
 
 
 
-  void archiveItem(index){
+  void archiveItem(id){
     setState((){
-      listItems.removeAt(index);
-      listItems2.removeAt(index);
+      requests.remove(id);
     });
   }
 
   void undoArchive(index, item){
-    setState((){
-      listItems.insert(index, item);
-    });
+  //  setState((){
+  //    listItems.insert(index, item);
+   // });
   }
 
   static Widget _dismiss(bool secondary) {

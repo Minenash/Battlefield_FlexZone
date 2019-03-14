@@ -1,42 +1,31 @@
 import 'package:flutter/material.dart';
-import 'RequestCard.dart';
 import 'CurrentRequests.dart';
+import 'package:flex_out/Request.dart';
+import 'package:flex_out/Screens/Student/RequestCard_Helper.dart';
 
-
-class RequestCardMS extends StatefulWidget {
+class STU_RequestCardMS extends StatefulWidget {
 
   static Set<int> selected = new Set();
 
-  String teacher_1, teacher_2, reason_1, reason_2, time_1, time_2;
-  Responce res_1, res_2;
-  int id;
+  Request request;
 
-  RequestCardMS(this.id, this.teacher_1, this.teacher_2,
-                         this.res_1,     this.res_2,
-                         this.reason_1,  this.reason_2,
-                         this.time_1,    this.time_2, {Key key, this.title}) : super(key: key);
+  STU_RequestCardMS(this.request, {Key key, this.title}) : super(key: key);
 
   final String title;
 
   @override
-  RequestCardMSState createState() => RequestCardMSState(id, teacher_1, teacher_2, res_1, res_2, reason_1, reason_2, time_1, time_2);
+  STU_RequestCardMSState createState() => STU_RequestCardMSState(request);
 
 }
 
-class RequestCardMSState extends State<RequestCardMS> {
+class STU_RequestCardMSState extends State<STU_RequestCardMS> {
 
-  static List<RequestCardMSState> states = new List();
+  static List<STU_RequestCardMSState> states = new List();
 
-
-  String teacher_1, teacher_2, reason_1, reason_2, time_1, time_2;
-  Responce res_1, res_2;
+  Request r;
   bool cb_val = false;
-  int id;
 
-  RequestCardMSState(this.id, this.teacher_1, this.teacher_2,
-                              this.res_1,     this.res_2,
-                              this.reason_1,  this.reason_2,
-                              this.time_1,    this.time_2);
+  STU_RequestCardMSState(this.r);
 
   @override
   void deactivate() {
@@ -48,23 +37,7 @@ class RequestCardMSState extends State<RequestCardMS> {
   Widget build(BuildContext context) {
     states.add(this);
 
-    Icon icon = getMainIcon(res_1, res_2);
-    Icon icon_1, icon_2;
-
-    if (res_1 == Responce.denied && res_2 == Responce.waiting) {
-      icon_1 = DENIED_ICON;
-      icon_2 = IRRELEVANT_ICON;
-    }
-    else if (res_1 == Responce.waiting && res_2 == Responce.denied) {
-      icon_1 = IRRELEVANT_ICON;
-      icon_2 = DENIED_ICON;
-    }
-    else {
-      icon_1 = getTeacherIcon(res_1);
-      icon_2 = getTeacherIcon(res_2);
-    }
-
-    Widget baseCard = createBaseCard(icon, icon_1, icon_2, teacher_1, teacher_2, time_1, time_2);
+    Widget baseCard = createBaseCard(r, true);
 
     return Card(
         child: Stack(
@@ -77,9 +50,9 @@ class RequestCardMSState extends State<RequestCardMS> {
                   onChanged: (bool val) { setState(() {
                     cb_val = val;
                     if (cb_val)
-                      RequestCardMS.selected.add(id);
+                      STU_RequestCardMS.selected.add(r.id);
                     else
-                      RequestCardMS.selected.remove(id);
+                      STU_RequestCardMS.selected.remove(r.id);
                     STU_CurrentRequestState.access.setMSAppBarCheckBoxSymbol();
                   });},
                   value: cb_val,
@@ -98,14 +71,14 @@ class RequestCardMSState extends State<RequestCardMS> {
     setState(() {
       cb_val = val;
       if (cb_val)
-        RequestCardMS.selected.add(id);
+        STU_RequestCardMS.selected.add(r.id);
       else
-        RequestCardMS.selected.remove(id);
+        STU_RequestCardMS.selected.remove(r.id);
     });
   }
 
   static void setAllSelected(bool val) {
-    for (RequestCardMSState state in states)
+    for (STU_RequestCardMSState state in states)
       state.setSelected(val);
   }
 
