@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flex_out/database.dart';
+import 'package:flex_out/Lang.dart';
 
 const Color BF_PURPLE = Color(0xFF501076);
 
@@ -22,7 +23,7 @@ class _LoginScreenState extends State<LoginScreen> {
     TextField tf_email = TextField(
       controller: emailController,
       decoration: InputDecoration(
-          labelText: 'EMAIL',
+          labelText: Lang.trans('email_field'),
           labelStyle: TextStyle(
               fontFamily: 'Montserrat',
               fontWeight: FontWeight.bold,
@@ -35,7 +36,7 @@ class _LoginScreenState extends State<LoginScreen> {
     TextField tf_password = TextField(
       controller: passController,
       decoration: InputDecoration(
-          labelText: 'PASSWORD',
+          labelText: Lang.trans('password_field'),
           labelStyle: TextStyle(
               fontFamily: 'Montserrat',
               fontWeight: FontWeight.bold,
@@ -51,7 +52,7 @@ class _LoginScreenState extends State<LoginScreen> {
       child: InkWell(
         onTap: () {forgotPassword();},
         child: Text(
-          'Forgot Password',
+          Lang.trans('forgot_password'),
           style: TextStyle(
               color: BF_PURPLE,
               fontWeight: FontWeight.bold,
@@ -71,7 +72,7 @@ class _LoginScreenState extends State<LoginScreen> {
           elevation: 7.0,
           child: Center(
             child: Text(
-              'LOGIN',
+              Lang.trans('login_button'),
               style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
@@ -112,15 +113,15 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void login() {
     if (!isEmailValid(emailController.text)) {
-      showError("Email Address not Valid!");
+      showError(Lang.trans('invalid_email_error'));
       return;
     }
 
     VerifyResults result = verify_login(emailController.text, passController.text);
 
     switch (result) {
-      case VerifyResults.NO_MATCH:        showError("The email or password is incorrect");          break;
-      case VerifyResults.DATABASE_ERROR:  showError("A Database Error occurred, try again later."); break;
+      case VerifyResults.NO_MATCH:        showError(Lang.trans('wrong_credentials')); break;
+      case VerifyResults.DATABASE_ERROR:  showError(Lang.trans('database_error'));    break;
 
       case VerifyResults.STUDENT:         setCurrentUser(emailController.text, passController.text, 1);
                                           Navigator.of(context).pushReplacementNamed('/stu_cr');    break;
@@ -131,7 +132,7 @@ class _LoginScreenState extends State<LoginScreen> {
       case VerifyResults.ADMIN:           setCurrentUser(emailController.text, passController.text, 3);
                                           Navigator.of(context).pushReplacementNamed('/adm_cr');     break;
 
-      default:                            showError("Can't access the server, are you connected to the internet?");
+      default:                            showError(Lang.trans('no_connection'));
     }
   }
 
@@ -147,12 +148,12 @@ class _LoginScreenState extends State<LoginScreen> {
     String email = emailController.text;
     
     if (email.isEmpty) {
-      showError("Please enter an email address");
+      showError(Lang.trans('empty_email_error'));
       return;
     }
 
     if (!isEmailValid(email)) {
-      showError("Email Address not Valid!");
+      showError(Lang.trans('invalid_email_error'));
       return;
     }
 
@@ -162,12 +163,12 @@ class _LoginScreenState extends State<LoginScreen> {
   void showForgotPasswordDialog(String email) {
 
     Widget okButton = FlatButton(
-      child: Text("OKAY"),
+      child: Text(Lang.trans('forgot_password_dialog_ok_button')),
       onPressed:  () {Navigator.of(context).pop();},
     );
 
     Widget whatEmailButton = FlatButton(
-      child: Text("WHAT EMAIL?"),
+      child: Text(Lang.trans('forgot_password_dialog_what_email_button')),
       onPressed:  () {
         Navigator.of(context).pop();
         showWhatEmailDialog(email);
@@ -175,8 +176,8 @@ class _LoginScreenState extends State<LoginScreen> {
     );
     
     AlertDialog alert = AlertDialog(
-      title: Text("Forgot Password"),
-      content: Text("An email has been sent to $email. Click the reset link to reset your password."),
+      title: Text(Lang.trans('forgot_password')),
+      content: Text(Lang.trans('forgot_password_dialog_text').replaceAll("%email%", email)),
       actions: <Widget>[whatEmailButton, okButton],
     );
 
@@ -189,14 +190,14 @@ class _LoginScreenState extends State<LoginScreen> {
   void showWhatEmailDialog(String email) {
 
     Widget okButton = FlatButton(
-      child: Text("OKAY"),
+      child: Text(Lang.trans('forgot_password_dialog_ok_button')),
       onPressed:  () {Navigator.of(context).pop();},
     );
 
 
     AlertDialog alert = AlertDialog(
-      title: Text("Forgot Password"),
-      content: Text("Did you check your spam folder? If you still don't see it, you can go to one of your librarians, they will be able to reset it for you."),
+      title: Text(Lang.trans('forgot_password')),
+      content: Text(Lang.trans('forgot_password_dialog_what_email_text')),
       actions: <Widget>[okButton],
     );
 

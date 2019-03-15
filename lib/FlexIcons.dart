@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
 class FlexIcons {
+  
+  static const APP = Icon(IconData(0xe900, fontFamily: 'custom_icons'), color: Colors.white, size: 40);
+  
   static const APPROVED = Icon(Icons.done, color: Colors.green);
   static const DENIED = Icon(Icons.close, color: Colors.red);
   static const WAITING = Icon(Icons.alarm, color: Colors.blueGrey);

@@ -6,7 +6,10 @@ import 'package:flex_out/database.dart';
 import 'package:flex_out/Screens/Login.dart';
 import 'package:flex_out/Request.dart';
 import 'package:flex_out/User.dart';
+import 'package:flex_out/FlexIcons.dart';
+import 'package:flex_out/Lang.dart';
 import 'package:flex_out/Screens/Student/RequestCard_Helper.dart';
+import 'LangaugeSelect.dart';
 
 enum MenuAction { log_out, classes, language }
 
@@ -48,18 +51,22 @@ class STU_CurrentRequestState extends State<STU_CurrentRequest> {
 
     return new Scaffold(
         appBar: AppBar(
-          title: Text("Current Requests"),
+          leading: Container(
+            padding: EdgeInsets.only(left: 10),
+            child: FlexIcons.APP,
+          ),
+          title: Text(Lang.trans('current_request_title')),
           backgroundColor: BF_PURPLE,
           actions: <Widget>[
             IconButton(icon: Icon(Icons.check_box_outline_blank), onPressed: () {setState(() {
               ms_enabled = true;
-            });}, tooltip: "CheckBox")
+            });}, tooltip: Lang.trans('multiselect_checkbox_tooltip'))
           ],
         ),
         floatingActionButtonLocation:
         FloatingActionButtonLocation.centerDocked,
         floatingActionButton: FloatingActionButton(
-          tooltip: "Create New Request",
+          tooltip: Lang.trans('new_request_button_tooltip'),
           child: const Icon(Icons.create), onPressed: () {},
           backgroundColor: BF_PURPLE,),
         bottomNavigationBar: BottomAppBar(
@@ -69,7 +76,7 @@ class STU_CurrentRequestState extends State<STU_CurrentRequest> {
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              IconButton(icon: Icon(Icons.archive), onPressed: () {}, tooltip: "Archive"),
+              IconButton(icon: Icon(Icons.archive), onPressed: () {}, tooltip: Lang.trans('archive_button_tooltip')),
               _menuButton()
             ],
           ),
@@ -101,7 +108,6 @@ class STU_CurrentRequestState extends State<STU_CurrentRequest> {
 
   void msArchive() {
     setState(() {
-      ms_enabled = false;
       for (int id in STU_RequestCardMS.selected)
         requests.remove(id);
     });
@@ -114,20 +120,24 @@ class STU_CurrentRequestState extends State<STU_CurrentRequest> {
 
     return new Scaffold(
         appBar: AppBar(
-          title: Text("Current Requests"),
+          leading: Container(
+            padding: EdgeInsets.only(left: 10),
+            child: FlexIcons.APP,
+          ),
+          title: Text(Lang.trans('current_request_title')),
           backgroundColor: BF_PURPLE,
           actions: <Widget>[
             IconButton(icon: Icon(Icons.arrow_back), onPressed: () {setState(() {
               ms_enabled = false;
-            });}, tooltip: "Exit MultiSelect"),
-            IconButton(icon: Icon(Icons.archive), onPressed: () {msArchive();}, tooltip: "Archive"),
-            IconButton(icon: Icon(mscheckboxicon), onPressed: () {onMSCheckBoxPress();}, tooltip: ""),
+            });}, tooltip: Lang.trans('multiselect_exit_button_tooltip')),
+            IconButton(icon: Icon(Icons.archive), onPressed: () {msArchive();}, tooltip: Lang.trans('archive_button_tooltip')),
+            IconButton(icon: Icon(mscheckboxicon), onPressed: () {onMSCheckBoxPress();}, tooltip: Lang.trans('multiselect_checkbox')),
           ],
         ),
         floatingActionButtonLocation:
         FloatingActionButtonLocation.centerDocked,
         floatingActionButton: FloatingActionButton(
-          tooltip: "Create New Request",
+          tooltip: Lang.trans('new_request_button_tooltip'),
           child: const Icon(Icons.create), onPressed: () {},
           backgroundColor: BF_PURPLE,),
         bottomNavigationBar: BottomAppBar(
@@ -137,7 +147,7 @@ class STU_CurrentRequestState extends State<STU_CurrentRequest> {
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              IconButton(icon: Icon(Icons.archive), onPressed: () {}, tooltip: "Archive"),
+              IconButton(icon: Icon(Icons.archive), onPressed: () {}, tooltip: Lang.trans('archive_button_tooltip')),
               _menuButton()
             ],
           ),
@@ -154,15 +164,15 @@ class STU_CurrentRequestState extends State<STU_CurrentRequest> {
       itemBuilder: (BuildContext context) => <PopupMenuEntry<MenuAction>>[
         PopupMenuItem<MenuAction>(
           value: MenuAction.language,
-          child: _menuOption(Icons.language, "Language"),
+          child: _menuOption(Icons.language, Lang.trans('menu_language')),
         ),
         PopupMenuItem<MenuAction>(
           value: MenuAction.classes,
-          child: _menuOption(Icons.class_, "Classes"),
+          child: _menuOption(Icons.class_, Lang.trans('menu_classes')),
         ),
         PopupMenuItem<MenuAction>(
           value: MenuAction.log_out,
-          child: _menuOption(Icons.exit_to_app, "Log Out"),
+          child: _menuOption(Icons.exit_to_app, Lang.trans('menu_logout')),
         ),
       ],
     );
@@ -188,7 +198,13 @@ class STU_CurrentRequestState extends State<STU_CurrentRequest> {
     Navigator.of(context).pushReplacementNamed('/login');
   }
 
-  void onLangSel() {}
+  void onLangSel() {
+
+    showDialog(context: context,
+        builder: (BuildContext context) {
+          return LangaugeSelect(this);
+        });
+  }
 
   void onClassSel() {}
 
@@ -233,9 +249,9 @@ class STU_CurrentRequestState extends State<STU_CurrentRequest> {
             archiveItem(index);
 
             Scaffold.of(context).showSnackBar(SnackBar(
-                content: Text("Request Archived"),
+                content: Text(Lang.trans('request_archived_msg')),
                 action: SnackBarAction(
-                    label: "UNDO",
+                    label: Lang.trans('undo_button'),
                     onPressed: () {undoArchive(index, item);}
                 )
             )

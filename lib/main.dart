@@ -33,7 +33,15 @@ class FlexZoneApp extends StatelessWidget {
   Widget _loading = MaterialApp(
       home: Scaffold(
         body: new Center(
-            child: new CircularProgressIndicator()
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                CircularProgressIndicator(),
+                SizedBox(height: 10),
+                Text("Loading")
+              ],
+            )
         ),
       )
   );

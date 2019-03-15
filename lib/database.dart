@@ -2,6 +2,7 @@ import 'package:flex_out/User.dart';
 import 'package:flex_out/Request.dart';
 import 'package:flex_out/Responce.dart';
 import 'package:flex_out/Class.dart';
+import 'package:flex_out/Lang.dart';
 import 'package:flutter_keychain/flutter_keychain.dart';
 
 enum VerifyResults {ADMIN, TEACHER, STUDENT, NO_MATCH, DATABASE_ERROR}
@@ -37,24 +38,34 @@ void setCurrentUser(String email, String hashpass, int itype) async {
   await FlutterKeychain.put(key: "email", value: email);
   await FlutterKeychain.put(key: "hashpass", value: hashpass);
   await FlutterKeychain.put(key: "type", value: "$itype");
+}
 
+void saveLangauge() {
+  FlutterKeychain.put(key: "langauge", value: Lang.code);
 }
 
 Future<bool> loadUser() async {
 
+  print(Lang.sentences);
+  String lang = await FlutterKeychain.get(key: "langauge");
+
+  Lang.setLang(lang == null? 'en' : lang);
+
+  print(Lang.sentences);
+
   String email = await FlutterKeychain.get(key: "email");
 
-  if (await email == null)
+  if (email == null)
     return true;
 
   String hashpass = await FlutterKeychain.get(key: "hashpass");
 
-  if (await hashpass == null)
+  if (hashpass == null)
     return true;
 
   String stype = await FlutterKeychain.get(key: "type");
 
-  if (await stype == null)
+  if (stype == null)
     return true;
 
   // ignore: deprecated_member_use
@@ -64,7 +75,7 @@ Future<bool> loadUser() async {
       : itype == 2 ? UserType.TEACHER
       : UserType.ADMIN;
 
-  User.current = await User(email, 'F', "Lastname2", hashpass, type);
+  User.current = User(email, 'F', "Lastname2", hashpass, type);
 
   return true;
 }

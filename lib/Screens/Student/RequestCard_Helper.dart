@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flex_out/Responce.dart';
 import 'package:flex_out/FlexIcons.dart';
 import 'package:flex_out/Request.dart';
+import 'package:flex_out/Lang.dart';
 
 bool no_expandables = false;
 
@@ -39,7 +40,7 @@ Widget createBaseCard(Request r, bool checkbox) {
     leading: Column(
       children: [ SizedBox(height: 5), icon ],
     ),
-    title: Text(r.from.class_name + " to " + r.to.class_name, style: TextStyle(
+    title: Text(r.from.class_name + " " + Lang.trans('class_card_connecting_word') + " " + r.to.class_name, style: TextStyle(
         fontWeight: FontWeight.bold
     )),
     subtitle: Column(
