@@ -7,6 +7,7 @@ class Request {
   String student_name;
   String description;
   bool deniable;
+  bool cancelled;
 
   FlexClass from;
   FlexClass to;
@@ -21,8 +22,12 @@ class Request {
   String to_reason;
 
   Request(this.id, this.timestamp, this.student_name, this.description,
-         this.deniable, this.from, this.to, this.from_responce, this.to_responce,
+         this.deniable, this.cancelled, this.from, this.to, this.from_responce, this.to_responce,
          this.from_time, this.to_time, this.from_reason, this.to_reason);
 
+  @override
+  String toString() {
+    return from.class_name + " to " + to.class_name;
+  }
   //TODO: Make a constructor based of a database row
 }

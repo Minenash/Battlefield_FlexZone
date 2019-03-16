@@ -1,0 +1,34 @@
+{
+  "email_field": "E-MAIL",
+  "password_field": "PASSWORT",
+  "forgot_password": "Passwort Vergessen",
+  "login_button": "LOGIN",
+  "invalid_email_error": "E-Mail adresse nicht gültig!",
+  "wrong_credentials": "Die E-Mail oder Passwort ist nicht korrekt!",
+  "database_error": "Ein Datenbankfehler ist aufgetreten. Versuchen Sie es später erneut.",
+  "no_connection": "Kann nicht auf den Server zugreifen, sind Sie mit dem Internet verbunden?",
+  "empty_email_error": "Bitte geben Sie eine E-Mail-Adresse ein",
+  "forgot_password_dialog_ok_button": "FERTIG",
+  "forgot_password_dialog_what_email_button": "WAS E-MAIL?",
+  "forgot_password_dialog_text": "Eine E-Mail wurde an %email% gesendet. Klicken Sie auf den Link zum Zurücksetzen, um Ihr Passwort zurückzusetzen.",
+  "forgot_password_dialog_what_email_text": "Haben Sie Ihren Spam-Ordner überprüft? Wenn Sie es immer noch nicht sehen, können Sie zu einem Ihrer Bibliothekare gehen, der sie für Sie zurücksetzen kann.",
+  
+  "current_request_title": "Aktuelle Anfordern",
+  "multiselect_checkbox_tooltip": "Mehrfachauswahl",
+  "new_request_button_tooltip": "Neue Anfrage Erstellen",
+  "archive_button_tooltip": "Archiv",
+  "multiselect_exit_button_tooltip": "Beenden Mehrfachauswahl",
+  "multiselect_checkbox": "Alle/Keine auswählen",
+  "meun_tooltip": "Menü",
+  "menu_language": "Sprache",
+  "menu_classes": "Klassen",
+  "menu_logout": "Ausloggen",
+  
+  "request_archived_msg": "Anfrage Archiviert",
+  "multiple_requests_archived_msg":"Anfragen Archiviert",
+  "undo_button": "RÜCKGÄNGIG MACHEN",
+  "class_card_connecting_word": "zu",
+  
+  "language_dialog_title": "Sprache eine Auswählen",
+  "apply_button":"ANWENDEN"
+}

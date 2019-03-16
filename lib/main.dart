@@ -12,7 +12,7 @@ class FlexZoneApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: loadUser(),
+        future: Database.loadUser(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           return snapshot.hasData ? MaterialApp(
             debugShowCheckedModeBanner: false,

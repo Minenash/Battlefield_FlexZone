@@ -112,24 +112,24 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void login() {
-    if (!isEmailValid(emailController.text)) {
+    if (!Database.isEmailValid(emailController.text)) {
       showError(Lang.trans('invalid_email_error'));
       return;
     }
 
-    VerifyResults result = verify_login(emailController.text, passController.text);
+    VerifyResults result = Database.verify_login(emailController.text, passController.text);
 
     switch (result) {
       case VerifyResults.NO_MATCH:        showError(Lang.trans('wrong_credentials')); break;
       case VerifyResults.DATABASE_ERROR:  showError(Lang.trans('database_error'));    break;
 
-      case VerifyResults.STUDENT:         setCurrentUser(emailController.text, passController.text, 1);
+      case VerifyResults.STUDENT:         Database.setCurrentUser(emailController.text, passController.text, 1);
                                           Navigator.of(context).pushReplacementNamed('/stu_cr');    break;
 
-      case VerifyResults.TEACHER:         setCurrentUser(emailController.text, passController.text, 2);
+      case VerifyResults.TEACHER:         Database.setCurrentUser(emailController.text, passController.text, 2);
                                           Navigator.of(context).pushReplacementNamed('/tea_cr');     break;
 
-      case VerifyResults.ADMIN:           setCurrentUser(emailController.text, passController.text, 3);
+      case VerifyResults.ADMIN:           Database.setCurrentUser(emailController.text, passController.text, 3);
                                           Navigator.of(context).pushReplacementNamed('/adm_cr');     break;
 
       default:                            showError(Lang.trans('no_connection'));
@@ -152,7 +152,7 @@ class _LoginScreenState extends State<LoginScreen> {
       return;
     }
 
-    if (!isEmailValid(email)) {
+    if (!Database.isEmailValid(email)) {
       showError(Lang.trans('invalid_email_error'));
       return;
     }

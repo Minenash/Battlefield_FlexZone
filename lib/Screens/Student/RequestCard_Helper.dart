@@ -6,8 +6,9 @@ import 'package:flex_out/Lang.dart';
 
 bool no_expandables = false;
 
-Icon getMainIcon(Responce res_1, Responce res_2) {
-  return res_1 == Responce.denied || res_2 == Responce.denied? FlexIcons.DENIED_BIG
+Icon getMainIcon(bool cancelled, Responce res_1, Responce res_2) {
+  return cancelled? FlexIcons.CANCELLED_BIG
+      : res_1 == Responce.denied || res_2 == Responce.denied? FlexIcons.DENIED_BIG
       : res_1 == Responce.waiting || res_2 == Responce.waiting? FlexIcons.WAITING_BIG
       : FlexIcons.ALL_APPROVED_BIG;
 }
@@ -20,7 +21,7 @@ Icon getTeacherIcon(Responce responce) {
 
 Widget createBaseCard(Request r, bool checkbox) {
 
-  Icon icon = getMainIcon(r.from_responce, r.to_responce);
+  Icon icon = getMainIcon(r.cancelled, r.from_responce, r.to_responce);
   Icon icon_1, icon_2;
 
   if (r.from_responce == Responce.denied && r.to_responce == Responce.waiting) {
@@ -96,8 +97,8 @@ Widget createReasonRow(String teacher, String reason) {
   );
 }
 
-bool set_no_expandables(Map<int,Request> requests) {
-  for (Request request in requests.values) {
+bool set_no_expandables(List<Request> requests) {
+  for (Request request in requests) {
     if (request.from_reason != null) {
       no_expandables = false;
       return false;

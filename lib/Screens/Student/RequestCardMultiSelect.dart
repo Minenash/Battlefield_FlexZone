@@ -5,7 +5,7 @@ import 'package:flex_out/Screens/Student/RequestCard_Helper.dart';
 
 class STU_RequestCardMS extends StatefulWidget {
 
-  static Set<int> selected = new Set();
+  static Set<Request> selected = new Set();
 
   Request request;
 
@@ -15,12 +15,11 @@ class STU_RequestCardMS extends StatefulWidget {
 
   @override
   STU_RequestCardMSState createState() => STU_RequestCardMSState(request);
-
 }
 
 class STU_RequestCardMSState extends State<STU_RequestCardMS> {
 
-  static List<STU_RequestCardMSState> states = new List();
+  static Map<Request, STU_RequestCardMSState> states = new Map();
 
   Request r;
   bool cb_val = false;
@@ -28,14 +27,14 @@ class STU_RequestCardMSState extends State<STU_RequestCardMS> {
   STU_RequestCardMSState(this.r);
 
   @override
-  void deactivate() {
-    states.remove(this);
-    super.deactivate();
+  void dispose() {
+    states.remove(r);
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    states.add(this);
+    states[r] = this;
 
     Widget baseCard = createBaseCard(r, true);
 
@@ -50,9 +49,9 @@ class STU_RequestCardMSState extends State<STU_RequestCardMS> {
                   onChanged: (bool val) { setState(() {
                     cb_val = val;
                     if (cb_val)
-                      STU_RequestCardMS.selected.add(r.id);
+                      STU_RequestCardMS.selected.add(r);
                     else
-                      STU_RequestCardMS.selected.remove(r.id);
+                      STU_RequestCardMS.selected.remove(r);
                     STU_CurrentRequestState.access.setMSAppBarCheckBoxSymbol();
                   });},
                   value: cb_val,
@@ -71,14 +70,14 @@ class STU_RequestCardMSState extends State<STU_RequestCardMS> {
     setState(() {
       cb_val = val;
       if (cb_val)
-        STU_RequestCardMS.selected.add(r.id);
+        STU_RequestCardMS.selected.add(r);
       else
-        STU_RequestCardMS.selected.remove(r.id);
+        STU_RequestCardMS.selected.remove(r);
     });
   }
 
   static void setAllSelected(bool val) {
-    for (STU_RequestCardMSState state in states)
+    for (STU_RequestCardMSState state in states.values)
       state.setSelected(val);
   }
 

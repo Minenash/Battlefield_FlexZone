@@ -1,0 +1,34 @@
+{
+  "email_field": "EMAIL",
+  "password_field": "CONTRASEÑA",
+  "forgot_password": "Olvidé mi contraseña",
+  "login_button": "LOGIN",
+  "invalid_email_error": "Dirección de correo electrónico no es válida!",
+  "wrong_credentials": "El correo electrónico o contraseña es incorrecta!",
+  "database_error": "Un error de base de datos se produjo, inténtalo de nuevo más tarde.",
+  "no_connection": "No se puede acceder al servidor, ¿estás conectado a internet?",
+  "empty_email_error": "Por favor introduzca una dirección de correo eléctronico",
+  "forgot_password_dialog_ok_button": "HECHO",
+  "forgot_password_dialog_what_email_button": "¿QUÉ CORREO ELECTRÓNICO?",
+  "forgot_password_dialog_text": "Se ha enviado un correo electrónico a %email%. Haga clic en el enlace de restablecer para restablecer su contraseña.",
+  "forgot_password_dialog_what_email_text": "¿Revisaste la carpeta de SPAM? Si aún no lo ves, puedes ir a uno de tus bibliotecarios, ellos podrán restablecerlo por ti.",
+  
+  "current_request_title": "Solicitudes Actuales",
+  "multiselect_checkbox_tooltip": "Selección-Múltiple",
+  "new_request_button_tooltip": "Crear Nueva Solicitud",
+  "archive_button_tooltip": "Archivo",
+  "multiselect_exit_button_tooltip": "Salir de Selección-Múltiple",
+  "multiselect_checkbox": "Seleccionar Todo/Ninguno",
+  "meun_tooltip": "Menú",
+  "menu_language": "Idioma",
+  "menu_classes": "Clases",
+  "menu_logout": "Cerrar Sesión",
+  
+  "request_archived_msg": "Solicitud Archivada",
+  "multiple_requests_archived_msg": "Solicitudes Archivadas",
+  "undo_button": "DESHACER",
+  "class_card_connecting_word": "a la",
+  
+  "language_dialog_title": "Seleccionar un Idioma",
+  "apply_button":"APLICAR"
+}

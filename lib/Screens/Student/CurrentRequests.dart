@@ -1,3 +1,4 @@
+import 'dart:collection';
 import 'package:flutter_keychain/flutter_keychain.dart';
 import 'package:flutter/material.dart';
 import 'RequestCardMultiSelect.dart';
@@ -23,17 +24,20 @@ class STU_CurrentRequest extends StatefulWidget {
 
 class STU_CurrentRequestState extends State<STU_CurrentRequest> {
   static STU_CurrentRequestState access;
-
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   //20 char Limit
-  Map<int,Request> requests = getRequests(User.current.email);
+  List<Request> requests = Database.getRequests(User.current.email);
   List<Widget> listItems;
+
+  Queue<Request> recently_archived = new Queue();
+  Queue<int> recently_archived_index = new Queue();
 
   bool ms_enabled = false;
 
   @override
   Widget build(BuildContext context) {
+    //requests = Database.getRequests(User.current.email);
     access = this;
-
     listItems = new List();
     set_no_expandables(requests);
 
@@ -46,10 +50,11 @@ class STU_CurrentRequestState extends State<STU_CurrentRequest> {
   }
 
   Widget normal() {
-    for(Request r in requests.values)
+    for(Request r in requests)
       listItems.add(STU_RequestCard(r));
 
     return new Scaffold(
+      key: _scaffoldKey,
         appBar: AppBar(
           leading: Container(
             padding: EdgeInsets.only(left: 10),
@@ -106,19 +111,66 @@ class STU_CurrentRequestState extends State<STU_CurrentRequest> {
     setMSAppBarCheckBoxSymbol();
   }
 
+  List<Request> last_MS_selection;
+  List<Request> ms_backup;
+
   void msArchive() {
     setState(() {
-      for (int id in STU_RequestCardMS.selected)
-        requests.remove(id);
+      last_MS_selection = List.from(STU_RequestCardMS.selected);
+      ms_backup = List.from(requests);
+      for (Request r in STU_RequestCardMS.selected) {
+        int index = requests.indexOf(r);
+        recently_archived.addLast(r);
+        recently_archived_index.addLast(index);
+        requests.remove(r);
+      }
+      STU_RequestCardMSState.setAllSelected(false);
+      ms_enabled = false;
+    });
+
+    Future.delayed(new Duration(milliseconds: 4000), () {
+      if (last_MS_selection == null)
+        return;
+      for (Request r in last_MS_selection) {
+        recently_archived.removeLast();
+        recently_archived_index.removeLast();
+        Database.archive(r);
+      }
+      last_MS_selection = null;
+      ms_backup = null;
+    });
+    _scaffoldKey.currentState.showSnackBar(SnackBar(
+        content: Text(Lang.trans('multiple_requests_archived_msg')),
+        action: SnackBarAction(
+            label: Lang.trans('undo_button'),
+            onPressed: () {undo_msArchive();}
+        )
+    )
+    );
+  }
+
+  void undo_msArchive() {
+    setState(() {
+      if (last_MS_selection == null)
+        return;
+      for (Request _ in last_MS_selection) {
+        recently_archived.removeLast();
+        recently_archived_index.removeLast();
+      }
+      requests = ms_backup;
+
+      last_MS_selection = null;
+      ms_backup = null;
     });
 
   }
 
   Widget multiselect() {
-    for(Request r in requests.values)
+    for(Request r in requests) {
       listItems.add(STU_RequestCardMS(r));
-
+    }
     return new Scaffold(
+      key: _scaffoldKey,
         appBar: AppBar(
           leading: Container(
             padding: EdgeInsets.only(left: 10),
@@ -210,16 +262,32 @@ class STU_CurrentRequestState extends State<STU_CurrentRequest> {
 
 
 
-  void archiveItem(id){
+  void archiveItem(Request request, {bool cancel}){
+    int index = requests.indexOf(request);
     setState((){
-      requests.remove(id);
+      recently_archived.addLast(request);
+      recently_archived_index.addLast(index);
+      requests.remove(request);
+    });
+    Future.delayed(new Duration(milliseconds: 4500), () {
+      if (!recently_archived.contains(request))
+        return;
+      recently_archived.remove(request);
+      recently_archived_index.remove(index);
+      if (cancel)
+        Database.cancel(request);
+      Database.archive(request);
     });
   }
 
-  void undoArchive(index, item){
-  //  setState((){
-  //    listItems.insert(index, item);
-   // });
+  void undoArchive(){
+    setState((){
+      Request r = recently_archived.last;
+      int index = recently_archived_index.last;
+      recently_archived.removeLast();
+      recently_archived_index.removeLast();
+      requests.insert(index, r);
+    });
   }
 
   static Widget _dismiss(bool secondary) {
@@ -245,14 +313,15 @@ class STU_CurrentRequestState extends State<STU_CurrentRequest> {
             child: listItems[index],
           ),
           onDismissed: (direction) {
-            var item = listItems.elementAt(index);
-            archiveItem(index);
+
+            var item = requests.elementAt(index);
+            archiveItem(item, cancel: direction == DismissDirection.endToStart);
 
             Scaffold.of(context).showSnackBar(SnackBar(
                 content: Text(Lang.trans('request_archived_msg')),
                 action: SnackBarAction(
                     label: Lang.trans('undo_button'),
-                    onPressed: () {undoArchive(index, item);}
+                    onPressed: () {undoArchive();}
                 )
             )
             );

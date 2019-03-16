@@ -27,33 +27,9 @@ class LangaugeSelectState extends State<LangaugeSelect> {
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          InkWell(
-            onTap: () {setState(() {_value = 'en';});},
-            child: Row(
-              children: <Widget>[
-                Radio( value: 'en', groupValue: _value, onChanged: (val) {setState(() {_value = val;});} ),
-                Text( Lang.languages['en'] )
-              ],
-            ),
-          ),
-          InkWell(
-            onTap: () {setState(() {_value = 'es';});},
-            child: Row(
-              children: <Widget>[
-                Radio( value: 'es', groupValue: _value, onChanged: (val) {setState(() {_value = val;});} ),
-                Text( Lang.languages['es'] )
-              ],
-            ),
-          ),
-          InkWell(
-            onTap: () {setState(() {_value = 'de';});},
-            child: Row(
-              children: <Widget>[
-                Radio( value: 'de', groupValue: _value, onChanged: (val) {setState(() {_value = val;});} ),
-                Text( Lang.languages['de'] )
-              ],
-            ),
-          ),
+          _option('en'),
+          _option('es'),
+          _option('de'),
         ],
       ),
       actions: <Widget>[
@@ -61,14 +37,28 @@ class LangaugeSelectState extends State<LangaugeSelect> {
           child: Text(Lang.trans('apply_button')),
           onPressed: () {
             setState(() {
-              Lang.setLang(_value);
-              access.setState((){});
-              saveLangauge();
               Navigator.of(context).pop();
+              Future.delayed(Duration(milliseconds: 1), () {
+                Lang.setLang(_value);
+                access.setState((){});
+                Database.saveLangauge();
+              });
             });
           },
         )
       ],
+    );
+  }
+
+  Widget _option(String code) {
+    return InkWell(
+      onTap: () {setState(() {_value = code;});},
+      child: Row(
+        children: <Widget>[
+          Radio( value: code, groupValue: _value, onChanged: (val) {setState(() {_value = val;});} ),
+          Text( Lang.languages[code] )
+        ],
+      ),
     );
   }
 }
