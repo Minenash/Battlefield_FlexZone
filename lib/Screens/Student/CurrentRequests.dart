@@ -1,16 +1,16 @@
 import 'dart:collection';
 import 'package:flutter_keychain/flutter_keychain.dart';
 import 'package:flutter/material.dart';
-import 'RequestCardMultiSelect.dart';
-import 'RequestCard.dart';
+import 'package:flex_out/Screens/Student/widgets/RequestCardMultiSelect.dart';
+import 'package:flex_out/Screens/Student/widgets/RequestCard.dart';
 import 'package:flex_out/database.dart';
 import 'package:flex_out/Screens/Login.dart';
 import 'package:flex_out/Request.dart';
 import 'package:flex_out/User.dart';
 import 'package:flex_out/FlexIcons.dart';
 import 'package:flex_out/Lang.dart';
-import 'package:flex_out/Screens/Student/RequestCard_Helper.dart';
-import 'LangaugeSelect.dart';
+import 'package:flex_out/Screens/Student/widgets/RequestCard_Helper.dart';
+import 'package:flex_out/Screens/Student/widgets/LangaugeSelect.dart';
 
 enum MenuAction { log_out, classes, language }
 
