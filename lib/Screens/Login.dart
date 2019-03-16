@@ -124,13 +124,13 @@ class _LoginScreenState extends State<LoginScreen> {
       case VerifyResults.DATABASE_ERROR:  showError(Lang.trans('database_error'));    break;
 
       case VerifyResults.STUDENT:         Database.setCurrentUser(emailController.text, passController.text, 1);
-                                          Navigator.of(context).pushReplacementNamed('/stu_cr');    break;
+                                          Navigator.of(context).pushReplacementNamed('/stu/current');    break;
 
       case VerifyResults.TEACHER:         Database.setCurrentUser(emailController.text, passController.text, 2);
-                                          Navigator.of(context).pushReplacementNamed('/tea_cr');     break;
+                                          Navigator.of(context).pushReplacementNamed('/tea/current');     break;
 
       case VerifyResults.ADMIN:           Database.setCurrentUser(emailController.text, passController.text, 3);
-                                          Navigator.of(context).pushReplacementNamed('/adm_cr');     break;
+                                          Navigator.of(context).pushReplacementNamed('/adm/current');     break;
 
       default:                            showError(Lang.trans('no_connection'));
     }

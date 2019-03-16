@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flex_out/Screens/Login.dart';
 import 'package:flex_out/Screens/Student/CurrentRequests.dart';
+import 'package:flex_out/Screens/Student/Archive.dart';
+import 'package:flex_out/Screens/Student/Classes.dart';
+import 'package:flex_out/Screens/Student/CreateRequest.dart';
+import 'package:flex_out/Screens/Student/JoinClass.dart';
 import 'package:flex_out/Screens/Teacher/CurrentRequests.dart';
 import 'package:flex_out/Screens/Admin/CurrentRequests.dart';
 import 'package:flex_out/database.dart';
@@ -18,9 +22,15 @@ class FlexZoneApp extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             routes: <String, WidgetBuilder>{
               '/login': (BuildContext context) => new LoginScreen(),
-              '/stu_cr': (BuildContext context) => new STU_CurrentRequest(),
-              '/tea_cr': (BuildContext context) => new TEA_CurrentRequest(),
-              '/adm_cr': (BuildContext context) => new ADM_CurrentRequest(),
+
+              '/stu/current': (BuildContext context) => new STU_CurrentRequest(),
+              '/stu/archive': (BuildContext context) => new STU_Archive(),
+              '/stu/create': (BuildContext context) => new STU_CreateRequest(),
+              '/stu/classes': (BuildContext context) => new STU_Classes(),
+              '/stu/joinclass': (BuildContext context) => new STU_JoinClass(),
+
+              '/tea/current': (BuildContext context) => new TEA_CurrentRequest(),
+              '/adm/current': (BuildContext context) => new ADM_CurrentRequest(),
             },
             home: User.current == null ? new LoginScreen() :
             User.current.type == UserType.STUDENT ? new STU_CurrentRequest() :
