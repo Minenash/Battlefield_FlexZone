@@ -15,8 +15,8 @@ class STU_RequestCard extends StatelessWidget {
 
     List<Widget> expanded = new List();
 
-    if (r.from_reason != null) expanded.add(createReasonRow(r.from.teacher_name, r.from_reason));
-    if (r.to_reason != null) expanded.add(createReasonRow(r.to.teacher_name, r.to_reason));
+    if (r.from_reason != null) expanded.add(createReasonRow(r.from.teacher.title_last(), r.from_reason));
+    if (r.to_reason != null) expanded.add(createReasonRow(r.to.teacher.title_last(), r.to_reason));
 
     if (expanded.isEmpty)
       return Card( child: baseCard );

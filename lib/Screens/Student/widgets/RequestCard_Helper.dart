@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flex_out/Responce.dart';
-import 'package:flex_out/FlexIcons.dart';
+import 'package:flex_out/FlexAssets.dart';
 import 'package:flex_out/Request.dart';
 import 'package:flex_out/Lang.dart';
 
@@ -46,8 +46,8 @@ Widget createBaseCard(Request r, bool checkbox) {
     )),
     subtitle: Column(
       children: <Widget>[
-        createResponceRow(icon_1, r.from.teacher_name, r.from_time, checkbox),
-        createResponceRow(icon_2, r.to.teacher_name, r.to_time, checkbox),
+        createResponceRow(icon_1, r.from.teacher.title_last(), r.from_time, checkbox),
+        createResponceRow(icon_2, r.to.teacher.title_last(), r.to_time, checkbox),
       ],
     ),
   );

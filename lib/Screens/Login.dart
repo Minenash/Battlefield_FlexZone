@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flex_out/database.dart';
 import 'package:flex_out/Lang.dart';
-
-const Color BF_PURPLE = Color(0xFF501076);
-
+import 'package:flex_out/FlexAssets.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -29,7 +27,7 @@ class _LoginScreenState extends State<LoginScreen> {
               fontWeight: FontWeight.bold,
               color: Colors.grey),
           focusedBorder: UnderlineInputBorder(
-              borderSide: BorderSide(color: BF_PURPLE))),
+              borderSide: BorderSide(color: FlexColors.BF_PURPLE))),
       keyboardType: TextInputType.emailAddress,
     );
 
@@ -42,7 +40,7 @@ class _LoginScreenState extends State<LoginScreen> {
               fontWeight: FontWeight.bold,
               color: Colors.grey),
           focusedBorder: UnderlineInputBorder(
-              borderSide: BorderSide(color: BF_PURPLE))),
+              borderSide: BorderSide(color: FlexColors.BF_PURPLE))),
       obscureText: true,
     );
 
@@ -54,7 +52,7 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Text(
           Lang.trans('forgot_password'),
           style: TextStyle(
-              color: BF_PURPLE,
+              color: FlexColors.BF_PURPLE,
               fontWeight: FontWeight.bold,
               fontFamily: 'Montserrat'),
         ),
@@ -68,7 +66,7 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Material(
           borderRadius: BorderRadius.circular(20.0),
           shadowColor: Colors.deepPurple,
-          color: BF_PURPLE,
+          color: FlexColors.BF_PURPLE,
           elevation: 7.0,
           child: Center(
             child: Text(

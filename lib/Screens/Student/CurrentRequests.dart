@@ -1,16 +1,16 @@
 import 'dart:collection';
-import 'package:flutter_keychain/flutter_keychain.dart';
 import 'package:flutter/material.dart';
+
+import 'package:flex_out/database.dart';
+import 'package:flex_out/Request.dart';
+import 'package:flex_out/FlexAssets.dart';
+import 'package:flex_out/Lang.dart';
+
 import 'package:flex_out/Screens/Student/widgets/RequestCardMultiSelect.dart';
 import 'package:flex_out/Screens/Student/widgets/RequestCard.dart';
-import 'package:flex_out/database.dart';
-import 'package:flex_out/Screens/Login.dart';
-import 'package:flex_out/Request.dart';
-import 'package:flex_out/User.dart';
-import 'package:flex_out/FlexIcons.dart';
-import 'package:flex_out/Lang.dart';
 import 'package:flex_out/Screens/Student/widgets/RequestCard_Helper.dart';
 import 'package:flex_out/Screens/Student/widgets/LangaugeSelect.dart';
+
 
 enum MenuAction { log_out, classes, language }
 
@@ -26,7 +26,7 @@ class STU_CurrentRequestState extends State<STU_CurrentRequest> {
   static STU_CurrentRequestState access;
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   //20 char Limit
-  List<Request> requests = Database.getRequests(User.current.email);
+  List<Request> requests = Database.getRequests();
   List<Widget> listItems;
 
   Queue<Request> recently_archived = new Queue();
@@ -61,7 +61,7 @@ class STU_CurrentRequestState extends State<STU_CurrentRequest> {
             child: FlexIcons.APP,
           ),
           title: Text(Lang.trans('current_request_title')),
-          backgroundColor: BF_PURPLE,
+          backgroundColor: FlexColors.BF_PURPLE,
           actions: <Widget>[
             IconButton(icon: Icon(Icons.check_box_outline_blank), onPressed: () {setState(() {
               ms_enabled = true;
@@ -72,8 +72,9 @@ class STU_CurrentRequestState extends State<STU_CurrentRequest> {
         FloatingActionButtonLocation.centerDocked,
         floatingActionButton: FloatingActionButton(
           tooltip: Lang.trans('new_request_button_tooltip'),
-          child: const Icon(Icons.create), onPressed: () {},
-          backgroundColor: BF_PURPLE,),
+          child: const Icon(Icons.create),
+            onPressed: () {Navigator.of(context).pushNamed('/stu/create');},
+          backgroundColor: FlexColors.BF_PURPLE,),
         bottomNavigationBar: BottomAppBar(
           shape: CircularNotchedRectangle(),
           notchMargin: 4.0,
@@ -81,7 +82,9 @@ class STU_CurrentRequestState extends State<STU_CurrentRequest> {
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              IconButton(icon: Icon(Icons.archive), onPressed: () {}, tooltip: Lang.trans('archive_button_tooltip')),
+              IconButton(icon: Icon(Icons.archive),
+                  onPressed: () {Navigator.of(context).pushNamed('/stu/archive');},
+                  tooltip: Lang.trans('archive_button_tooltip')),
               _menuButton()
             ],
           ),
@@ -177,7 +180,7 @@ class STU_CurrentRequestState extends State<STU_CurrentRequest> {
             child: FlexIcons.APP,
           ),
           title: Text(Lang.trans('current_request_title')),
-          backgroundColor: BF_PURPLE,
+          backgroundColor: FlexColors.BF_PURPLE,
           actions: <Widget>[
             IconButton(icon: Icon(Icons.arrow_back), onPressed: () {setState(() {
               ms_enabled = false;
@@ -191,7 +194,7 @@ class STU_CurrentRequestState extends State<STU_CurrentRequest> {
         floatingActionButton: FloatingActionButton(
           tooltip: Lang.trans('new_request_button_tooltip'),
           child: const Icon(Icons.create), onPressed: () {},
-          backgroundColor: BF_PURPLE,),
+          backgroundColor: FlexColors.BF_PURPLE,),
         bottomNavigationBar: BottomAppBar(
           shape: CircularNotchedRectangle(),
           notchMargin: 4.0,
@@ -246,8 +249,7 @@ class STU_CurrentRequestState extends State<STU_CurrentRequest> {
   }
 
   void onLogOutSel() {
-    FlutterKeychain.clear();
-    Navigator.of(context).pushReplacementNamed('/login');
+    Database.logout(context);
   }
 
   void onLangSel() {
@@ -258,7 +260,9 @@ class STU_CurrentRequestState extends State<STU_CurrentRequest> {
         });
   }
 
-  void onClassSel() {}
+  void onClassSel() {
+    Navigator.of(context).pushNamed('/stu/classes');
+  }
 
 
 
@@ -290,13 +294,14 @@ class STU_CurrentRequestState extends State<STU_CurrentRequest> {
     });
   }
 
-  static Widget _dismiss(bool secondary) {
+  static Widget _dismiss(Request r, bool secondary) {
+    bool isCancel = secondary? r.cancelled? false : true : false;
     return Card(
-      color: secondary? Colors.red : Colors.green,
+      color: isCancel? Colors.red : Colors.green,
       child: Container(
           alignment: secondary? Alignment.centerRight : Alignment.centerLeft,
           padding: secondary? EdgeInsets.only(right: 25) : EdgeInsets.only(left: 25),
-          child: secondary? Icon(Icons.close) : Icon(Icons.archive)
+          child: isCancel? Icon(Icons.close) : Icon(Icons.archive)
       ),
     );
   }
@@ -306,8 +311,8 @@ class STU_CurrentRequestState extends State<STU_CurrentRequest> {
       itemCount: listItems.length,
       itemBuilder: (context, index) {
         return Dismissible(
-          background: _dismiss(false),
-          secondaryBackground: _dismiss(true),
+          background: _dismiss(requests[index],false),
+          secondaryBackground: _dismiss(requests[index],true),
           key: ObjectKey(listItems[index]),
           child: Container(
             child: listItems[index],
@@ -315,7 +320,7 @@ class STU_CurrentRequestState extends State<STU_CurrentRequest> {
           onDismissed: (direction) {
 
             var item = requests.elementAt(index);
-            archiveItem(item, cancel: direction == DismissDirection.endToStart);
+            archiveItem(item, cancel: direction == DismissDirection.endToStart && !item.cancelled);
 
             Scaffold.of(context).showSnackBar(SnackBar(
                 content: Text(Lang.trans('request_archived_msg')),

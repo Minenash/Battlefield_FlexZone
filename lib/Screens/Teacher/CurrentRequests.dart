@@ -1,6 +1,6 @@
-import 'package:flutter_keychain/flutter_keychain.dart';
 import 'package:flutter/material.dart';
 import 'package:flex_out/User.dart';
+import 'package:flex_out/database.dart';
 
 class TEA_CurrentRequest extends StatelessWidget {
   @override
@@ -22,8 +22,7 @@ class TEA_CurrentRequest extends StatelessWidget {
                 MaterialButton(
                   child: Text("Logout"),
                   onPressed: () {
-                    FlutterKeychain.clear();
-                    Navigator.of(context).pushReplacementNamed('/login');
+                    Database.logout(context);
                   },
                   textTheme: ButtonTextTheme.normal,
                 ),

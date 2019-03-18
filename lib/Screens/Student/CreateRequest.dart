@@ -11,6 +11,6 @@ class STU_CreateRequest extends StatefulWidget {
 class STU_CreateRequestState extends State<STU_CreateRequest> {
   @override
   Widget build(BuildContext context) {
-    return null;
+    return Container();
   }
 }

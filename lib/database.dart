@@ -1,9 +1,12 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+
 import 'package:flex_out/User.dart';
 import 'package:flex_out/Request.dart';
-import 'package:flex_out/Responce.dart';
-import 'package:flex_out/Class.dart';
+import 'package:flex_out/TestData.dart' as TestData;
 import 'package:flex_out/Lang.dart';
-import 'package:flutter_keychain/flutter_keychain.dart';
+import 'package:flex_out/Class.dart';
+import 'package:flex_out/Teacher.dart';
 
 enum VerifyResults {ADMIN, TEACHER, STUDENT, NO_MATCH, DATABASE_ERROR}
 
@@ -47,36 +50,56 @@ class Database {
 
     User.current = User(email, 'F', "Lastname", "hashpass", type);
 
-    await FlutterKeychain.put(key: "email", value: email);
-    await FlutterKeychain.put(key: "hashpass", value: hashpass);
-    await FlutterKeychain.put(key: "type", value: "$itype");
+    final storage = new FlutterSecureStorage();
+
+    await storage.deleteAll();
+
+    await storage.write(key: "email", value: email);
+    await storage.write(key: "hashpass", value: hashpass);
+    await storage.write(key: "type", value: "$itype");
+    await storage.write(key: "langauge", value: Lang.code);
   }
 
-  static void saveLangauge() {
-    FlutterKeychain.put(key: "langauge", value: Lang.code);
+  static void saveLangauge() async {
+    final storage = new FlutterSecureStorage();
+
+    await storage.delete(key: "langauge");
+    await storage.write(key: "langauge", value: Lang.code);
+  }
+
+  static void logout(BuildContext context) async {
+    final storage = new FlutterSecureStorage();
+
+    await storage.delete(key: "email");
+    await storage.delete(key: "hashpass");
+    await storage.delete(key: "type");
+
+    Navigator.of(context).pushReplacementNamed('/login');
   }
 
   static Future<bool> loadUser() async {
 
+    final storage = new FlutterSecureStorage();
+
     String lang;
 
-    try { lang = await FlutterKeychain.get(key: "langauge"); }
-    catch (e) {}
+    try {lang = await storage.read(key: "langauge");}
+    catch (e) {await storage.deleteAll(); print("Cleared (#1)");}
 
     Lang.setLang(lang == null ? 'en' : lang);
 
     try {
-      String email = await FlutterKeychain.get(key: "email");
+      String email = await storage.read(key: "email");
 
       if (email == null)
         return true;
 
-      String hashpass = await FlutterKeychain.get(key: "hashpass");
+      String hashpass = await storage.read(key: "hashpass");
 
       if (hashpass == null)
         return true;
 
-      String stype = await FlutterKeychain.get(key: "type");
+      String stype = await storage.read(key: "type");
 
       if (stype == null)
         return true;
@@ -89,75 +112,60 @@ class Database {
           : UserType.ADMIN;
 
       User.current = User(email, 'F', "Lastname2", hashpass, type);
-
-      return true;
     }
     catch (e) {
-      await FlutterKeychain.clear();
-      return true;
+      await storage.deleteAll();
     }
+    return true;
   }
 
-  static List<Request> getRequests(String email) {
+  static List<Request> getRequests() {
     //TODO: Get from database and parse
 
-    List<Request> requests = new List();
-    requests.add(new Request(
-        0,
-        null,
-        "Ryan Frank",
-        "Test Retake",
-        true,
-        false,
-        FlexClass(0, 2, "Calc", "Merrmans"),
-        FlexClass(1, 3, "History", "Ganow"),
-        Responce.approved,
-        Responce.waiting,
-        "12:34 AM",
-        null,
-        "lol",
-        null));
+    return TestData.getTestRequests(User.current.email);
+  }
 
-    requests.add(new Request(
-        1,
-        null,
-        "Ryan Frank",
-        "Study Help",
-        true,
-        true,
-        FlexClass(2, 4, "Physics", "Mars"),
-        FlexClass(3, 7, "Networking", "Metts"),
-        Responce.approved,
-        Responce.approved,
-        "12:34 AM",
-        "Yesterday",
-        null,
-        null));
+  static List<Request> getArchivedRequests() {
+    //TODO: Get archived requests from database
 
-    requests.add(new Request(
-        2,
-        null,
-        "Ryan Frank",
-        "IDK Anymore",
-        true,
-        false,
-        FlexClass(4, 1, "Class A", "Teacher A"),
-        FlexClass(4, 6, "Class B", "Teacher B"),
-        Responce.approved,
-        Responce.denied,
-        "12:34 AM",
-        "Yesterday",
-        "lol",
-        null));
+    return TestData.getTestRequests(User.current.email);
+  }
 
-    return requests;
+  static List<FlexClass> getClasses() {
+    //TODO: Get archived requests from database
+
+    return TestData.getTestClasses(User.current.email);
+  }
+
+  static List<Teacher> getTeachers() {
+    //TODO: Get Teachers from Database
+
+    return TestData.getTeachers();
+  }
+
+  static List<FlexClass> getTeacherClasses(Teacher t) {
+    //TODO: Get Teachers from Database
+
+    return TestData.getTeacherClasses(t);
   }
 
   static void archive(Request r) {
     print("Database: Request Archived");
   }
 
+  static void unarchive(Request r) {
+    print("Database: Request Unarchived");
+  }
+
   static void cancel(Request r) {
     print("Database: Request Canceled");
+  }
+
+  static void leave_class(FlexClass c) {
+    print("Database: Class Left");
+  }
+
+  static void add_class(FlexClass c) {
+    print("Database: Class Left");
   }
 }

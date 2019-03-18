@@ -14,6 +14,9 @@
   "forgot_password_dialog_what_email_text": "Did you check your spam folder? If you still don't see it, you can go to one of your librarians, they will be able to reset it for you.",
   
   "current_request_title": "Current Requests",
+  "archived_title": "Archived Requests",
+  "classes_title":"Classes",
+
   "multiselect_checkbox_tooltip": "Multi-Select",
   "new_request_button_tooltip": "Create New Request",
   "archive_button_tooltip": "Archive",
@@ -26,6 +29,7 @@
   
   "request_archived_msg": "Request Archived",
   "multiple_requests_archived_msg": "Requests Archived",
+  "request_unarchived_msg": "Request Unarchived",
   "undo_button": "UNDO",
   "class_card_connecting_word": "to",
 
