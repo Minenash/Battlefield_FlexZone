@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'package:flex_out/Class.dart';
+import 'package:flex_out/structures/Class.dart';
 import 'package:flex_out/FlexAssets.dart';
 
-import 'package:flex_out/Screens/Student/Classes.dart';
+import 'package:flex_out/screens/Student/Classes.dart';
 
 class STU_ClassCard extends StatelessWidget {
   

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flex_out/Responce.dart';
+import 'package:flex_out/structures/Responce.dart';
 import 'package:flex_out/FlexAssets.dart';
-import 'package:flex_out/Request.dart';
+import 'package:flex_out/structures/Request.dart';
 import 'package:flex_out/Lang.dart';
 
 bool no_expandables = false;

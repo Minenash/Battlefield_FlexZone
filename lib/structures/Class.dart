@@ -1,4 +1,4 @@
-import 'Teacher.dart';
+import 'package:flex_out/structures/Teacher.dart';
 
 class FlexClass {
   int id, period;

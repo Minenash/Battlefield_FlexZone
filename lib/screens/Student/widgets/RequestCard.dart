@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flex_out/Request.dart';
-import 'package:flex_out/Screens/Student/widgets/RequestCard_Helper.dart';
+import 'package:flex_out/structures/Request.dart';
+import 'package:flex_out/screens/Student/widgets/RequestCard_Helper.dart';
 
 class STU_RequestCard extends StatelessWidget {
 

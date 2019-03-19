@@ -2,14 +2,14 @@ import 'dart:collection';
 import 'package:flutter/material.dart';
 
 import 'package:flex_out/database.dart';
-import 'package:flex_out/Request.dart';
+import 'package:flex_out/structures/Request.dart';
 import 'package:flex_out/FlexAssets.dart';
 import 'package:flex_out/Lang.dart';
 
-import 'package:flex_out/Screens/Student/widgets/RequestCardMultiSelect.dart';
-import 'package:flex_out/Screens/Student/widgets/RequestCard.dart';
-import 'package:flex_out/Screens/Student/widgets/RequestCard_Helper.dart';
-import 'package:flex_out/Screens/Student/widgets/LangaugeSelect.dart';
+import 'package:flex_out/screens/Student/widgets/RequestCardMultiSelect.dart';
+import 'package:flex_out/screens/Student/widgets/RequestCard.dart';
+import 'package:flex_out/screens/Student/widgets/RequestCard_Helper.dart';
+import 'package:flex_out/screens/Student/widgets/LangaugeSelect.dart';
 
 
 enum MenuAction { log_out, classes, language }

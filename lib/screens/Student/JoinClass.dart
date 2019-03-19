@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flex_out/database.dart';
 import 'package:flex_out/FlexAssets.dart';
 import 'package:flex_out/Lang.dart';
-import 'package:flex_out/Class.dart';
-import 'package:flex_out/Teacher.dart';
+import 'package:flex_out/structures/Class.dart';
+import 'package:flex_out/structures/Teacher.dart';
 
-import 'package:flex_out/Screens/Student/widgets/TeacherCard.dart';
+import 'package:flex_out/screens/Student/widgets/TeacherCard.dart';
 
 class STU_JoinClass_Teacher extends StatelessWidget {
   //20 char Limit

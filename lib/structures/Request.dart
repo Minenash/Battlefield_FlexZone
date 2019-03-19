@@ -1,5 +1,5 @@
-import 'package:flex_out/Class.dart';
-import 'package:flex_out/Responce.dart';
+import 'package:flex_out/structures/Class.dart';
+import 'package:flex_out/structures/Responce.dart';
 
 class Request {
   int id;

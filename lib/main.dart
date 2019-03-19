@@ -1,22 +1,24 @@
 import 'package:flutter/material.dart';
 
 import 'package:flex_out/database.dart';
-import 'package:flex_out/User.dart';
+import 'package:flex_out/structures/User.dart';
 
-import 'package:flex_out/Screens/Login.dart';
-import 'package:flex_out/Screens/Student/CurrentRequests.dart';
-import 'package:flex_out/Screens/Student/Archive.dart';
-import 'package:flex_out/Screens/Student/Classes.dart';
-import 'package:flex_out/Screens/Student/CreateRequest.dart';
-import 'package:flex_out/Screens/Student/JoinClass.dart';
-import 'package:flex_out/Screens/Teacher/CurrentRequests.dart';
+import 'package:flex_out/screens/Login.dart';
+import 'package:flex_out/screens/Student/CurrentRequests.dart';
+import 'package:flex_out/screens/Student/Archive.dart';
+import 'package:flex_out/screens/Student/Classes.dart';
+import 'package:flex_out/screens/Student/CreateRequest.dart';
+import 'package:flex_out/screens/Student/JoinClass.dart';
+import 'package:flex_out/screens/Teacher/CurrentRequests.dart';
 
 
 void main() => runApp(new FlexZoneApp());
 
 class FlexZoneApp extends StatelessWidget {
+  
   @override
   Widget build(BuildContext context) {
+    
     return FutureBuilder(
         future: Database.loadUser(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {

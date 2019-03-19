@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flex_out/database.dart';
 import 'package:flex_out/FlexAssets.dart';
 import 'package:flex_out/Lang.dart';
-import 'package:flex_out/Class.dart';
+import 'package:flex_out/structures/Class.dart';
 
-import 'package:flex_out/Screens/Student/widgets/ClassCard.dart';
+import 'package:flex_out/screens/Student/widgets/ClassCard.dart';
 
 class STU_Classes extends StatefulWidget {
   STU_Classes({Key key, this.title}) : super(key: key);

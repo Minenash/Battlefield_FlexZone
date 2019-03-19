@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flex_out/database.dart';
 import 'package:flex_out/Lang.dart';
 import 'package:flex_out/FlexAssets.dart';
+import 'package:flex_out/mailhandler.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -154,7 +155,7 @@ class _LoginScreenState extends State<LoginScreen> {
       showError(Lang.trans('invalid_email_error'));
       return;
     }
-
+    MailHandler.sendPasswordRecovery(email, "James Doppee");
     showForgotPasswordDialog(email);
   }
 

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
 import 'package:flex_out/FlexAssets.dart';
-import 'package:flex_out/Teacher.dart';
-import 'package:flex_out/Class.dart';
+import 'package:flex_out/structures/Teacher.dart';
+import 'package:flex_out/structures/Class.dart';
 import 'package:flex_out/SlideRoute.dart';
 import 'package:flex_out/database.dart';
 
-import 'package:flex_out/Screens/Student/JoinClass.dart';
+import 'package:flex_out/screens/Student/JoinClass.dart';
 
 class STU_TeacherCard extends StatelessWidget {
 

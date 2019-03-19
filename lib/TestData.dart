@@ -1,7 +1,7 @@
-import 'Request.dart';
-import 'Class.dart';
-import 'Responce.dart';
-import 'Teacher.dart';
+import 'package:flex_out/structures/Request.dart';
+import 'package:flex_out/structures/Class.dart';
+import 'package:flex_out/structures/Responce.dart';
+import 'package:flex_out/structures/Teacher.dart';
 
 List<Request> getTestRequests(String email) {
   List<Request> requests = new List();

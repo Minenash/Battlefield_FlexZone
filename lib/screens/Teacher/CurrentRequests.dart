@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flex_out/User.dart';
+import 'package:flex_out/structures/User.dart';
 import 'package:flex_out/database.dart';
 
 class TEA_CurrentRequest extends StatelessWidget {
@@ -12,7 +12,7 @@ class TEA_CurrentRequest extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  "${User.current.first_inital}. ${User.current
+                  "${User.current.firstname}. ${User.current
                       .lastname}\n${User
                       .current.email}\n${User.typeToString(User.current.type)}",
                   textAlign: TextAlign.center,

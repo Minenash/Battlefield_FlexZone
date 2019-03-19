@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-import 'package:flex_out/User.dart';
-import 'package:flex_out/Request.dart';
+import 'package:flex_out/structures/User.dart';
+import 'package:flex_out/structures/Request.dart';
 import 'package:flex_out/TestData.dart' as TestData;
 import 'package:flex_out/Lang.dart';
-import 'package:flex_out/Class.dart';
-import 'package:flex_out/Teacher.dart';
+import 'package:flex_out/structures/Class.dart';
+import 'package:flex_out/structures/Teacher.dart';
 
 enum VerifyResults {ADMIN, TEACHER, STUDENT, NO_MATCH, DATABASE_ERROR}
 

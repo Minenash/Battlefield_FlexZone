@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
 import 'package:flex_out/database.dart';
-import 'package:flex_out/Request.dart';
+import 'package:flex_out/structures/Request.dart';
 import 'package:flex_out/FlexAssets.dart';
 import 'package:flex_out/Lang.dart';
 
-import 'package:flex_out/Screens/Student/widgets/RequestCard.dart';
-import 'package:flex_out/Screens/Student/widgets/RequestCard_Helper.dart';
+import 'package:flex_out/screens/Student/widgets/RequestCard.dart';
+import 'package:flex_out/screens/Student/widgets/RequestCard_Helper.dart';
 
 class STU_Archive extends StatefulWidget {
   STU_Archive({Key key, this.title}) : super(key: key);
