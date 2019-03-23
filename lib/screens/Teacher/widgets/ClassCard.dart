@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flex_out/structures/Class.dart';
 import 'package:flex_out/FlexAssets.dart';
 
-import 'package:flex_out/screens/Student/Classes.dart';
+import 'package:flex_out/screens/Teacher/Classes.dart';
 
-class STU_ClassCard extends StatelessWidget {
+class TEA_ClassCard extends StatelessWidget {
   
   final FlexClass c;
   final TEA_ClassesState parent;
   
-  STU_ClassCard(this.c, this.parent);
+  TEA_ClassCard(this.c, this.parent);
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +53,7 @@ class STU_ClassCard extends StatelessWidget {
                     shape: CircleBorder(),
                     padding: EdgeInsets.all(20),
                     onPressed: () {
-                      parent.leave_class(c);
+                      parent.delete_class(c);
                     },
                   )
 

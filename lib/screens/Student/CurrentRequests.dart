@@ -9,7 +9,7 @@ import 'package:flex_out/Lang.dart';
 import 'package:flex_out/screens/Student/widgets/RequestCardMultiSelect.dart';
 import 'package:flex_out/screens/Student/widgets/RequestCard.dart';
 import 'package:flex_out/screens/Student/widgets/RequestCard_Helper.dart';
-import 'package:flex_out/screens/Student/widgets/LangaugeSelect.dart';
+import 'package:flex_out/screens/LangaugeSelect.dart';
 
 
 enum MenuAction { log_out, classes, language }
@@ -202,7 +202,7 @@ class STU_CurrentRequestState extends State<STU_CurrentRequest> {
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              IconButton(icon: Icon(Icons.archive), onPressed: () {}, tooltip: Lang.trans('archive_button_tooltip')),
+              IconButton(icon: Icon(Icons.archive), onPressed: () {Navigator.of(context).pushNamed('/stu/create');}, tooltip: Lang.trans('archive_button_tooltip')),
               _menuButton()
             ],
           ),

@@ -166,10 +166,18 @@ class Database {
   }
 
   static void add_class(FlexClass c) {
-    print("Database: Class Left");
+    print("Database: Joined Class");
   }
 
   static void create_request(FlexClass from, FlexClass to, String reason) {
-    print("Database: Class Left");
+    print("Database: Create Request");
+  }
+
+  static void create_class(String name) {
+    print("Database: Class Created");
+  }
+
+  static void delete_class(FlexClass c) {
+    print("Database: Class Deleted");
   }
 }

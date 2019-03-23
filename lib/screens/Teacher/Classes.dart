@@ -5,17 +5,18 @@ import 'package:flex_out/FlexAssets.dart';
 import 'package:flex_out/Lang.dart';
 import 'package:flex_out/structures/Class.dart';
 
-import 'package:flex_out/screens/Student/widgets/ClassCard.dart';
+import 'package:flex_out/screens/Teacher/widgets/ClassCard.dart';
+import 'package:flex_out/screens/Teacher/widgets/NewClass.dart';
 
-class STU_Classes extends StatefulWidget {
-  STU_Classes({Key key, this.title}) : super(key: key);
+class TEA_Classes extends StatefulWidget {
+  TEA_Classes({Key key, this.title}) : super(key: key);
   final String title;
 
   @override
   TEA_ClassesState createState() => TEA_ClassesState();
 }
 
-class TEA_ClassesState extends State<STU_Classes> {
+class TEA_ClassesState extends State<TEA_Classes> {
   //20 char Limit
   List<FlexClass> classes = Database.getClasses();
   List<Widget> listItems;
@@ -26,7 +27,7 @@ class TEA_ClassesState extends State<STU_Classes> {
     listItems = new List();
 
     for(FlexClass c in classes)
-      listItems.add(STU_ClassCard(c,this));
+      listItems.add(TEA_ClassCard(c,this));
 
     return new Scaffold(
         appBar: AppBar(
@@ -42,15 +43,20 @@ class TEA_ClassesState extends State<STU_Classes> {
         child: Icon(Icons.add),
         backgroundColor: FlexColors.BF_PURPLE,
         foregroundColor: Colors.white,
-        onPressed: () {Navigator.of(context).pushNamed('/stu/joinclass/teacher');},
+        onPressed: () {
+          showDialog(context: context,
+              builder: (BuildContext context) {
+                return NewClass(this);
+              });
+        },
       ),
     );
   }
 
-  void leave_class(FlexClass c) {
+  void delete_class(FlexClass c) {
     setState(() {
       classes.remove(c);
-      Database.leave_class(c);
+      Database.delete_class(c);
     });
   }
 

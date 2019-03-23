@@ -9,7 +9,10 @@ import 'package:flex_out/screens/Student/Archive.dart';
 import 'package:flex_out/screens/Student/Classes.dart';
 import 'package:flex_out/screens/Student/CreateRequest.dart';
 import 'package:flex_out/screens/Student/JoinClass.dart';
+
 import 'package:flex_out/screens/Teacher/CurrentRequests.dart';
+import 'package:flex_out/screens/Teacher/Archive.dart';
+import 'package:flex_out/screens/Teacher/Classes.dart';
 
 
 void main() => runApp(new FlexZoneApp());
@@ -35,6 +38,8 @@ class FlexZoneApp extends StatelessWidget {
               '/stu/joinclass/teacher': (BuildContext context) => new STU_JoinClass_Teacher(),
 
               '/tea/current': (BuildContext context) => new TEA_CurrentRequest(),
+              '/tea/archive': (BuildContext context) => new TEA_Archive(),
+              '/tea/classes': (BuildContext context) => new TEA_Classes(),
             },
             home: User.current == null ? new LoginScreen() :
             User.current.type == UserType.STUDENT ? new STU_CurrentRequest() :

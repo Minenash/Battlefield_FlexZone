@@ -210,7 +210,7 @@ class STU_CreateRequestState extends State<STU_CreateRequest> {
     else if (fromClass.id == toClass.id)
       showError("You can't flex in and out of the same class!");
     else {
-      Database.create_request(fromClass, toClass, reasonController.toString());
+      Database.create_request(fromClass, toClass, reasonController.text);
 
       STU_CurrentRequestState.scaffoldKey.currentState.showSnackBar(new SnackBar(
         content: new Text("Request Created"),
