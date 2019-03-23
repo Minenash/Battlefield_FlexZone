@@ -36,54 +36,6 @@ class STU_CreateRequestState extends State<STU_CreateRequest> {
 
   @override
   Widget build(BuildContext context) {
-
-    if (MediaQuery.of(context).viewInsets.bottom > 0)
-      return Scaffold(
-        key: _scaffoldKey,
-          resizeToAvoidBottomPadding: false,
-          appBar: AppBar(
-            leading: MaterialButton(
-                child: FlexIcons.BACK_ARROW,
-                onPressed: () {
-                  Navigator.of(context).pop();
-                }),
-            title: Text("Create Flex Request"),
-            backgroundColor: FlexColors.BF_PURPLE,
-          ),
-          backgroundColor: Colors.grey[300],
-          body:Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Container(padding: EdgeInsets.only(top: 80)),
-              Container (
-                  width: 300,
-                  child: TextField(
-                    controller: reasonController,
-                    decoration: InputDecoration(
-                        labelText: Lang.trans('reason_field'),
-                        labelStyle: TextStyle(
-                            fontFamily: 'Montserrat',
-                            fontWeight: FontWeight.bold,
-                            color: Colors.grey),
-                        focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: FlexColors.BF_PURPLE))),
-                  )
-              ),
-              SizedBox(height: 80),
-              RaisedButton(
-                  textColor: Colors.white,
-                  color: FlexColors.BF_PURPLE,
-                  padding: EdgeInsets.symmetric(vertical: 12, horizontal: 26),
-                  child: Text("CREATE", style: TextStyle(
-                      fontSize: 16
-                  )),
-                  onPressed: () {},
-                  shape: new RoundedRectangleBorder(
-                      borderRadius: new BorderRadius.circular(30.0))),
-            ],
-          )
-      );
-
     return Scaffold(
       key: _scaffoldKey,
         resizeToAvoidBottomPadding: false,
@@ -98,94 +50,32 @@ class STU_CreateRequestState extends State<STU_CreateRequest> {
         ),
         backgroundColor: Colors.grey[300],
         body: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            Container(
-              padding: EdgeInsets.only(top: 35),
-            ),
-            Text("From", style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 22
-            )),
-            SizedBox(height: 20),
-            GestureDetector(
-              child: Card(
-                shape: new RoundedRectangleBorder(
-                    borderRadius: new BorderRadius.circular(25.0)),
-                child: Container(
-                  height: 150,
-                  width: 150,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Icon(
-                          fromClass == null ? Icons.help_outline : Icons.class_,
-                          size: 50),
-                      Text(fromClass == null ? "Select a Class" : fromClass
-                          .class_name + "\n(P" + fromClass.period.toString() + ")", style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18,
-                      ), textAlign: TextAlign.center)
-                    ],
-                  ),
-
-                ),
-              ),
-              onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (c) => STU_ChooseClass(this, false)));
-              },
-            ),
-            SizedBox(height: 20),
-            Text("To", style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 22
-            )),
-            SizedBox(height: 20),
-            GestureDetector(
-              child: Card(
-                shape: new RoundedRectangleBorder(
-                    borderRadius: new BorderRadius.circular(25.0)),
-                child: Container(
-                  height: 150,
-                  width: 150,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Icon(toClass == null ? Icons.help_outline : Icons.class_,
-                          size: 50),
-                      Text(toClass == null ? "Select a Class" : toClass
-                          .class_name + "\n(P" + toClass.period.toString() + ")", style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                      ), textAlign: TextAlign.center)
-                    ],
-                  ),
-                ),
-              ),
-              onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (c) => STU_ChooseClass(this, true)));
-              },
+            SizedBox(height: 50),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                from(),
+                SizedBox(width: 20),
+                to(),
+              ],
             ),
             SizedBox(height: 20),
             Container (
-              width: 300,
+                width: 300,
                 child: TextField(
-              controller: reasonController,
-              decoration: InputDecoration(
-                  labelText: Lang.trans('reason_field'),
-                  labelStyle: TextStyle(
-                      fontFamily: 'Montserrat',
-                      fontWeight: FontWeight.bold,
-                      color: Colors.grey),
-                  focusedBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: FlexColors.BF_PURPLE))),
-            )
+                  controller: reasonController,
+                  decoration: InputDecoration(
+                      labelText: Lang.trans('reason_field'),
+                      labelStyle: TextStyle(
+                          fontFamily: 'Montserrat',
+                          fontWeight: FontWeight.bold,
+                          color: Colors.grey),
+                      focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: FlexColors.BF_PURPLE))),
+                )
             ),
-            SizedBox(height: 80),
+            SizedBox(height: 50),
             RaisedButton(
                 textColor: Colors.white,
                 color: FlexColors.BF_PURPLE,
@@ -218,6 +108,92 @@ class STU_CreateRequestState extends State<STU_CreateRequest> {
       Navigator.of(context).pop();
     }
   }
+
+  Widget from() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Text("From", style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 22
+        )),
+        SizedBox(height: 20),
+        GestureDetector(
+          child: Card(
+            shape: new RoundedRectangleBorder(
+                borderRadius: new BorderRadius.circular(25.0)),
+            child: Container(
+              height: 150,
+              width: 150,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Icon(
+                      fromClass == null ? Icons.help_outline : Icons.class_,
+                      size: 50),
+                  Text(fromClass == null ? "Select a Class" : fromClass
+                      .class_name + "\n(P" + fromClass.period.toString() + ")", style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                  ), textAlign: TextAlign.center)
+                ],
+              ),
+
+            ),
+          ),
+          onTap: () {
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (c) => STU_ChooseClass(this, false)));
+          },
+        ),
+      ],
+    );
+  }
+
+  Widget to() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Text("To", style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 22
+        )),
+        SizedBox(height: 20),
+        GestureDetector(
+          child: Card(
+            shape: new RoundedRectangleBorder(
+                borderRadius: new BorderRadius.circular(25.0)),
+            child: Container(
+              height: 150,
+              width: 150,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Icon(
+                      toClass == null ? Icons.help_outline : Icons.class_,
+                      size: 50),
+                  Text(toClass == null ? "Select a Class" : toClass
+                      .class_name + "\n(P" + toClass.period.toString() + ")", style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                  ), textAlign: TextAlign.center)
+                ],
+              ),
+
+            ),
+          ),
+          onTap: () {
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (c) => STU_ChooseClass(this, true)));
+          },
+        ),
+      ],
+    );
+  }
+
+
 
   void showError(String text) {
     _scaffoldKey.currentState.showSnackBar(new SnackBar(
