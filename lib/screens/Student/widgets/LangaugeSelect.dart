@@ -38,7 +38,7 @@ class LangaugeSelectState extends State<LangaugeSelect> {
           onPressed: () {
             setState(() {
               Navigator.of(context).pop();
-              Future.delayed(Duration(milliseconds: 1), () {
+              Future.delayed(Duration(milliseconds: 10), () {
                 Lang.setLang(_value);
                 access.setState((){});
                 Database.saveLangauge();

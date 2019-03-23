@@ -4,6 +4,7 @@ class FlexIcons {
   
   static const APP = Icon(IconData(0xe900, fontFamily: 'custom_icons'), color: Colors.white, size: 40);
   static const BACK_ARROW = Icon(Icons.arrow_back, color: Colors.white, size: 25);
+  static const BACK_CARET = Icon(Icons.navigate_before, size: 30, color: Colors.white);
 
   static const APPROVED = Icon(Icons.done, color: Colors.green);
   static const DENIED = Icon(Icons.close, color: Colors.red);
@@ -24,7 +25,6 @@ class FlexIcons {
 
   static const TEACHER_LEADING = Icon(Icons.person, size: 50, color: Colors.black);
   static const TEACHER_NEXT = Icon(Icons.navigate_next, size: 25, color: Colors.black);
-  static const TEACHER_CLASS_BACK = Icon(Icons.navigate_before, size: 30, color: Colors.white);
 }
 
 class FlexColors {

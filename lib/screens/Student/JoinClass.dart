@@ -55,7 +55,7 @@ class STU_JoinClass_Class extends StatelessWidget{
     return new Scaffold(
       appBar: AppBar(
         leading: MaterialButton(
-            child: FlexIcons.TEACHER_CLASS_BACK,
+            child: FlexIcons.BACK_CARET,
             onPressed: () {Navigator.of(context).pop();}),
         title: Text(Lang.trans("classes_title")),
         backgroundColor: FlexColors.BF_PURPLE,

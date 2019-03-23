@@ -24,7 +24,7 @@ class STU_CurrentRequest extends StatefulWidget {
 
 class STU_CurrentRequestState extends State<STU_CurrentRequest> {
   static STU_CurrentRequestState access;
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  static GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
   //20 char Limit
   List<Request> requests = Database.getRequests();
   List<Widget> listItems;
@@ -54,7 +54,7 @@ class STU_CurrentRequestState extends State<STU_CurrentRequest> {
       listItems.add(STU_RequestCard(r));
 
     return new Scaffold(
-      key: _scaffoldKey,
+      key: scaffoldKey,
         appBar: AppBar(
           leading: Container(
             padding: EdgeInsets.only(left: 10),
@@ -142,7 +142,7 @@ class STU_CurrentRequestState extends State<STU_CurrentRequest> {
       last_MS_selection = null;
       ms_backup = null;
     });
-    _scaffoldKey.currentState.showSnackBar(SnackBar(
+    scaffoldKey.currentState.showSnackBar(SnackBar(
         content: Text(Lang.trans('multiple_requests_archived_msg')),
         action: SnackBarAction(
             label: Lang.trans('undo_button'),
@@ -173,7 +173,7 @@ class STU_CurrentRequestState extends State<STU_CurrentRequest> {
       listItems.add(STU_RequestCardMS(r));
     }
     return new Scaffold(
-      key: _scaffoldKey,
+      key: scaffoldKey,
         appBar: AppBar(
           leading: Container(
             padding: EdgeInsets.only(left: 10),

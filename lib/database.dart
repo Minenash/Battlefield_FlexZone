@@ -168,4 +168,8 @@ class Database {
   static void add_class(FlexClass c) {
     print("Database: Class Left");
   }
+
+  static void create_request(FlexClass from, FlexClass to, String reason) {
+    print("Database: Class Left");
+  }
 }
