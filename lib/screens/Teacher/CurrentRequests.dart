@@ -5,11 +5,13 @@ import 'package:flex_out/database.dart';
 import 'package:flex_out/structures/Request.dart';
 import 'package:flex_out/FlexAssets.dart';
 import 'package:flex_out/Lang.dart';
+import 'package:flex_out/structures/Responce.dart';
 
 import 'package:flex_out/screens/Teacher/widgets/RequestCardMultiSelect.dart';
 import 'package:flex_out/screens/Teacher/widgets/RequestCard.dart';
 import 'package:flex_out/screens/Teacher/widgets/RequestCard_Helper.dart';
 import 'package:flex_out/screens/LangaugeSelect.dart';
+import 'package:flex_out/screens/Teacher/widgets/Respond.dart';
 
 
 enum MenuAction { log_out, language }
@@ -26,7 +28,7 @@ class TEA_CurrentRequestState extends State<TEA_CurrentRequest> {
   static TEA_CurrentRequestState access;
   static GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
   //20 char Limit
-  List<Request> requests = Database.getRequests();
+  List<Request> requests;
   List<Widget> listItems;
 
   Queue<Request> recently_archived = new Queue();
@@ -36,7 +38,7 @@ class TEA_CurrentRequestState extends State<TEA_CurrentRequest> {
 
   @override
   Widget build(BuildContext context) {
-    //requests = Database.getRequests(User.current.email);
+    requests = Database.getRequests();
     access = this;
     listItems = new List();
     set_no_expandables(requests);
@@ -51,7 +53,7 @@ class TEA_CurrentRequestState extends State<TEA_CurrentRequest> {
 
   Widget normal() {
     for(Request r in requests)
-      listItems.add(TEA_RequestCard(r));
+      listItems.add(TEA_RequestCard(r, access: this));
 
     return new Scaffold(
       key: scaffoldKey,
@@ -112,6 +114,15 @@ class TEA_CurrentRequestState extends State<TEA_CurrentRequest> {
   void onMSCheckBoxPress() {
     TEA_RequestCardMSState.setAllSelected( mscheckboxicon != Icons.check_box );
     setMSAppBarCheckBoxSymbol();
+  }
+
+
+  void msRespond(Responce r) {
+    showDialog(context: context,
+        builder: (BuildContext context) {
+          return Respond(List.from(TEA_RequestCardMS.selected), r, this);
+        });
+    ms_enabled = false;
   }
 
   List<Request> last_MS_selection;
@@ -185,8 +196,8 @@ class TEA_CurrentRequestState extends State<TEA_CurrentRequest> {
             IconButton(icon: Icon(Icons.arrow_back), onPressed: () {setState(() {
               ms_enabled = false;
             });}, tooltip: Lang.trans('multiselect_exit_button_tooltip')),
-            IconButton(icon: Icon(Icons.check, color: Colors.green,), onPressed: () {}, tooltip: Lang.trans('archive_button_tooltip')),
-            IconButton(icon: Icon(Icons.close, color: Colors.red,), onPressed: () {}, tooltip: Lang.trans('archive_button_tooltip')),
+            IconButton(icon: Icon(Icons.check, color: Colors.green,), onPressed: () {msRespond(Responce.approved);}, tooltip: Lang.trans('accept_button_tooltip')),
+            IconButton(icon: Icon(Icons.close, color: Colors.red,), onPressed: () {msRespond(Responce.denied);}, tooltip: Lang.trans('deny_button_tooltip')),
             IconButton(icon: Icon(Icons.archive), onPressed: () {msArchive();}, tooltip: Lang.trans('archive_button_tooltip')),
             IconButton(icon: Icon(mscheckboxicon), onPressed: () {onMSCheckBoxPress();}, tooltip: Lang.trans('multiselect_checkbox')),
           ],
@@ -260,7 +271,7 @@ class TEA_CurrentRequestState extends State<TEA_CurrentRequest> {
         });
   }
 
-  void archiveItem(Request request, {bool cancel}){
+  void archiveItem(Request request){
     int index = requests.indexOf(request);
     setState((){
       recently_archived.addLast(request);
@@ -272,8 +283,6 @@ class TEA_CurrentRequestState extends State<TEA_CurrentRequest> {
         return;
       recently_archived.remove(request);
       recently_archived_index.remove(index);
-      if (cancel)
-        Database.cancel(request);
       Database.archive(request);
     });
   }
@@ -288,14 +297,14 @@ class TEA_CurrentRequestState extends State<TEA_CurrentRequest> {
     });
   }
 
-  static Widget _dismiss(Request r, bool secondary) {
-    bool isCancel = secondary? r.cancelled? false : true : false;
+
+  static Widget _dismiss( bool secondary) {
     return Card(
-      color: isCancel? Colors.red : Colors.green,
+      color: Colors.green,
       child: Container(
           alignment: secondary? Alignment.centerRight : Alignment.centerLeft,
           padding: secondary? EdgeInsets.only(right: 25) : EdgeInsets.only(left: 25),
-          child: isCancel? Icon(Icons.close) : Icon(Icons.archive)
+          child: Icon(Icons.archive, size: 35)
       ),
     );
   }
@@ -305,8 +314,8 @@ class TEA_CurrentRequestState extends State<TEA_CurrentRequest> {
       itemCount: listItems.length,
       itemBuilder: (context, index) {
         return Dismissible(
-          background: _dismiss(requests[index],false),
-          secondaryBackground: _dismiss(requests[index],true),
+          background: _dismiss(false),
+          secondaryBackground: _dismiss(true),
           key: ObjectKey(listItems[index]),
           child: Container(
             child: listItems[index],
@@ -314,7 +323,7 @@ class TEA_CurrentRequestState extends State<TEA_CurrentRequest> {
           onDismissed: (direction) {
 
             var item = requests.elementAt(index);
-            archiveItem(item, cancel: direction == DismissDirection.endToStart && !item.cancelled);
+            archiveItem(item);
 
             Scaffold.of(context).showSnackBar(SnackBar(
                 content: Text(Lang.trans('request_archived_msg')),

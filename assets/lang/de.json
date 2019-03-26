@@ -8,12 +8,18 @@
   "database_error": "Ein Datenbankfehler ist aufgetreten. Versuchen Sie es später erneut.",
   "no_connection": "Kann nicht auf den Server zugreifen, sind Sie mit dem Internet verbunden?",
   "empty_email_error": "Bitte geben Sie eine E-Mail-Adresse ein",
+  "empty_password_error": "Bitte geben sie ein Passwort ein",
   "forgot_password_dialog_ok_button": "FERTIG",
   "forgot_password_dialog_what_email_button": "WAS E-MAIL?",
   "forgot_password_dialog_text": "Eine E-Mail wurde an %email% gesendet. Klicken Sie auf den Link zum Zurücksetzen, um Ihr Passwort zurückzusetzen.",
   "forgot_password_dialog_what_email_text": "Haben Sie Ihren Spam-Ordner überprüft? Wenn Sie es immer noch nicht sehen, können Sie zu einem Ihrer Bibliothekare gehen, der sie für Sie zurücksetzen kann.",
   
   "current_request_title": "Aktuelle Anfordern",
+  "archived_title": "Archivierte Anfragen",
+  "classes_title": "Klassen",
+  "create_request_title": "Neue Anfrage Erstellen",
+  "create_class_title": "Erstellen Sie eine Neue Klasse",
+
   "multiselect_checkbox_tooltip": "Mehrfachauswahl",
   "new_request_button_tooltip": "Neue Anfrage Erstellen",
   "archive_button_tooltip": "Archiv",
@@ -30,5 +36,36 @@
   "class_card_connecting_word": "zu",
   
   "language_dialog_title": "Sprache eine Auswählen",
-  "apply_button":"ANWENDEN"
+  "apply_button":"ANWENDEN",
+
+  "teacher": "Lehrer",
+  "period": "Zeitraum",
+  "period_prefix": "P",
+
+  "reason_field": "GRUND",
+  "create_button": "Erstellen",
+  "no_from_class": "Wählen Sie eine Klasse für Flex Out aus",
+  "no_to_class": "Wählen Sie eine Klasse für Flex In aus",
+  "from_is_to_class": "Sie können Flex nicht innerhalb und außerhalb derselben Klasse!",
+  "request_sent": "Anfrage Gesendet",
+  "select_class": "Select a Class",
+
+
+  "class_name_field": "CLASS NAME",
+  "no_name_error": "Wählen Sie eine Klasse aus",
+  "dublicate_neme_error": "Sie haben diesen Klassennamen bereits verwendet",
+  "create_class_button": "Erstellen",
+
+  "reason": "Grund",
+  "optional": "wahlweise",
+  "done_button": "ERLEDIGT",
+
+  "accept_button": "AKZEPTIEREN",
+  "deny_button": "VERWIGERN",
+  "accept_button_tooltip": "Akzeptieren",
+  "deny_button_tooltip": "Verweigern",
+
+  "you": "Sie", 
+  "from": "Von",
+  "to": "Zu"
 }

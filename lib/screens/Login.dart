@@ -15,13 +15,16 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
 
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-  
+  final _formKey = GlobalKey<FormState>();
+
   TextEditingController emailController = new TextEditingController();
   TextEditingController passController = new TextEditingController();
 
+  bool forgotPasswordPressed = false;
+
   @override
   Widget build(BuildContext context) {
-    TextField tf_email = TextField(
+    TextFormField tf_email = TextFormField(
       controller: emailController,
       decoration: InputDecoration(
           labelText: Lang.trans('email_field'),
@@ -32,9 +35,15 @@ class _LoginScreenState extends State<LoginScreen> {
           focusedBorder: UnderlineInputBorder(
               borderSide: BorderSide(color: FlexColors.BF_PURPLE))),
       keyboardType: TextInputType.emailAddress,
+      validator: (v) {
+        if (v.isEmpty)
+          return Lang.trans("empty_email_error");
+        if (!Database.isEmailValid(emailController.text))
+          return Lang.trans('invalid_email_error');
+      },
     );
 
-    TextField tf_password = TextField(
+    TextFormField tf_password = TextFormField(
       controller: passController,
       decoration: InputDecoration(
           labelText: Lang.trans('password_field'),
@@ -45,6 +54,10 @@ class _LoginScreenState extends State<LoginScreen> {
           focusedBorder: UnderlineInputBorder(
               borderSide: BorderSide(color: FlexColors.BF_PURPLE))),
       obscureText: true,
+      validator: (v) {
+        if (! forgotPasswordPressed && v.isEmpty)
+          return Lang.trans('empty_password_error');
+      },
     );
 
     Widget bt_forgotPassword = Container(
@@ -97,7 +110,9 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             Container(
                 padding: EdgeInsets.only(top: 35.0, left: 20.0, right: 20.0),
-                child: Column(
+                child: Form (
+                  key: _formKey,
+                    child: Column(
                   children: <Widget>[
                     tf_email,
                     SizedBox(height: 20.0),
@@ -107,14 +122,18 @@ class _LoginScreenState extends State<LoginScreen> {
                     SizedBox(height: 60.0),
                     bt_submit,
                   ],
-                )),
+                ))),
           ],
         ));
   }
 
   void login() {
-    if (!Database.isEmailValid(emailController.text)) {
-      showError(Lang.trans('invalid_email_error'));
+
+    FocusScope.of(context).requestFocus(new FocusNode());
+
+    forgotPasswordPressed = false;
+
+    if (!_formKey.currentState.validate()) {
       return;
     }
 
@@ -147,16 +166,16 @@ class _LoginScreenState extends State<LoginScreen> {
   void forgotPassword() {
 
     String email = emailController.text;
-    
-    if (email.isEmpty) {
-      showError(Lang.trans('empty_email_error'));
-      return;
-    }
 
-    if (!Database.isEmailValid(email)) {
-      showError(Lang.trans('invalid_email_error'));
+    forgotPasswordPressed = true;
+
+    if (!_formKey.currentState.validate()) {
+      forgotPasswordPressed = false;
       return;
     }
+    forgotPasswordPressed = false;
+
+
     MailHandler.sendPasswordRecovery(email, "James Doppee");
     showForgotPasswordDialog(email);
   }

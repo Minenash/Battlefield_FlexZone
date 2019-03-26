@@ -8,12 +8,18 @@
   "database_error": "Un error de base de datos se produjo, inténtalo de nuevo más tarde.",
   "no_connection": "No se puede acceder al servidor, ¿estás conectado a internet?",
   "empty_email_error": "Por favor introduzca una dirección de correo eléctronico",
+  "empty_password_error": "Por favor ingrese una contraseña",
   "forgot_password_dialog_ok_button": "HECHO",
   "forgot_password_dialog_what_email_button": "¿QUÉ CORREO ELECTRÓNICO?",
   "forgot_password_dialog_text": "Se ha enviado un correo electrónico a %email%. Haga clic en el enlace de restablecer para restablecer su contraseña.",
   "forgot_password_dialog_what_email_text": "¿Revisaste la carpeta de SPAM? Si aún no lo ves, puedes ir a uno de tus bibliotecarios, ellos podrán restablecerlo por ti.",
   
   "current_request_title": "Solicitudes Actuales",
+  "archived_title": "Solicitudes Archivadas",
+  "classes_title": "Clases",
+  "create_request_title": "Crear Nueva Solicitud",
+  "create_class_title": "Crear una Nueva Clase",
+
   "multiselect_checkbox_tooltip": "Selección-Múltiple",
   "new_request_button_tooltip": "Crear Nueva Solicitud",
   "archive_button_tooltip": "Archivo",
@@ -30,5 +36,36 @@
   "class_card_connecting_word": "a la",
   
   "language_dialog_title": "Seleccionar un Idioma",
-  "apply_button":"APLICAR"
+  "apply_button":"APLICAR",
+
+  "teacher": "Profesor",
+  "period": "Período",
+  "period_prefix": "P",
+
+  "reason_field": "RAZÓN",
+  "create_button": "CREAR",
+  "no_from_class": "Elige una clase para Flex Out de",
+  "no_to_class": "Elige una clase a Flex In para",
+  "from_is_to_class": "¡No puedes Flex dentro y fuera de la misma clase!",
+  "request_sent": "Solicitud Enviada",
+  "select_class": "Selecciona una Clase",
+
+
+  "class_name_field": "NOMBRE DE LA CLASE",
+  "no_name_error": "Por favor ingrese un nombre",
+  "dublicate_neme_error": "Ya usaste ese nombre de clase",
+  "create_class_button": "Crear",
+
+  "reason": "Razón",
+  "optional": "opcional",
+  "done_button": "HECHO",
+
+  "accept_button": "ACEPTAR",
+  "deny_button": "NEGAR",
+  "accept_button_tooltip": "Aceptar",
+  "deny_button_tooltip": "Negar",
+
+  "you": "Tú", 
+  "from": "Desde",
+  "to": "Para"
 }

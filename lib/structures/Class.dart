@@ -6,4 +6,6 @@ class FlexClass {
   Teacher teacher;
 
   FlexClass(this.id, this.period, this.class_name, this.teacher);
+
+  String display() => class_name + " (P" + period.toString() + ")";
 }

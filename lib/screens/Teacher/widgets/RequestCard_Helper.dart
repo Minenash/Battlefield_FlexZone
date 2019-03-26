@@ -3,6 +3,7 @@ import 'package:flex_out/structures/Responce.dart';
 import 'package:flex_out/FlexAssets.dart';
 import 'package:flex_out/structures/Request.dart';
 import 'package:flex_out/Lang.dart';
+import 'package:flex_out/structures/Teacher.dart';
 
 bool no_expandables = false;
 
@@ -19,10 +20,12 @@ Icon getTeacherIcon(Responce responce) {
       :                                 FlexIcons.WAITING;
 }
 
-Widget createBaseCard(Request r, bool checkbox) {
+Widget createBaseCard(Request r, BuildContext context) {
 
   Icon icon = getMainIcon(r.cancelled, r.from_responce, r.to_responce);
-  Icon icon_1, icon_2;
+  Icon icon_0, icon_1, icon_2;
+
+  icon_0 = r.cancelled? FlexIcons.CANCELLED : FlexIcons.APPROVED;
 
   if (r.from_responce == Responce.denied && r.to_responce == Responce.waiting) {
     icon_1 = FlexIcons.DENIED;
@@ -41,26 +44,69 @@ Widget createBaseCard(Request r, bool checkbox) {
     leading: Column(
       children: [ SizedBox(height: 5), icon ],
     ),
-    title: Text(r.from.class_name + " " + Lang.trans('class_card_connecting_word') + " " + r.to.class_name, style: TextStyle(
+    title: Text(r.from.display() + " " + Lang.trans('class_card_connecting_word') + " " + r.to.display(), style: TextStyle(
         fontWeight: FontWeight.bold
     )),
     subtitle: Column(
       children: <Widget>[
-        createResponceRow(icon_1, r.from.teacher.title_last(), r.from_time, checkbox),
-        createResponceRow(icon_2, r.to.teacher.title_last(), r.to_time, checkbox),
+        SizedBox(height: 5),
+        createResponceRow(icon_0, r.timestamp, student_name: r.student_name, requestReason: r.description, context: context),
+        Divider(color: Colors.grey[700]),
+        createResponceRow(icon_1, r.from_time, teacher: r.from.teacher, fclass: r.from.display()),
+        SizedBox(height: 5),
+        createResponceRow(icon_2, r.to_time, teacher: r.to.teacher, fclass: r.to.display()),
       ],
     ),
   );
 }
 
-Widget createResponceRow(Icon icon, String teacher, String time, bool checkbox) {
+Widget createResponceRow(Icon icon, String time, {String fclass, String requestReason, BuildContext context, Teacher teacher, String student_name}) {
+
+
   return Row(
       mainAxisSize: MainAxisSize.max,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Row(children: [icon, Text(" $teacher")]),
+        Row (children: [
+          Column(
+            children: <Widget>[
+              SizedBox(height: 5),
+              icon
+            ],
+          ),
+          fclass == null ? Column (
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Text(" $student_name", style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16,
+                                  color: Colors.black
+                                )),
+                                Row(
+                                  children: <Widget>[
+                                    SizedBox(width: 4),
+                                    Container(
+                                        width: MediaQuery.of(context).size.width - 235,
+                                        child: createReasonRow(Lang.trans('reason'), requestReason)
+                                    )
+                                  ],
+                                ),
+
+                              ],
+                           )
+                         : Column (
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                 Text(" $fclass", style: TextStyle(
+                                   fontWeight: FontWeight.bold
+                                 )),
+                                 Text(teacher.id == Teacher.current.id? " " + Lang.trans('you') : " " + teacher.first_last())
+                              ]
+                           )
+        ],
+        crossAxisAlignment: CrossAxisAlignment.start),
         Container(
-            padding: EdgeInsets.only(right: no_expandables && !checkbox? 10 : 50),
+            padding: EdgeInsets.only(right: 50),
             child: Text(time == null? "" : time,
               style: TextStyle(
                   fontStyle: FontStyle.italic
@@ -71,7 +117,7 @@ Widget createResponceRow(Icon icon, String teacher, String time, bool checkbox) 
   );
 }
 
-Widget createReasonRow(String teacher, String reason) {
+Widget createReasonRow(String prefix, String reason) {
   return Row(
       children: <Widget>[
         Flexible(
@@ -80,7 +126,7 @@ Widget createReasonRow(String teacher, String reason) {
             children: <Widget>[
               RichText(
                 text: TextSpan(
-                  text: teacher + ": ",
+                  text: prefix + ": ",
                   style: TextStyle(
                       fontWeight: FontWeight.bold, color: Colors.black),
                   children: <TextSpan>[

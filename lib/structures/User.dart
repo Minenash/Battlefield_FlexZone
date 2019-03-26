@@ -15,5 +15,5 @@ class User {
     return type.toString().substring(9).toLowerCase();
   }
 
-  String firstlast() => firstname + " " + lastname;
+  String first_last() => "$firstname $lastname";
 }

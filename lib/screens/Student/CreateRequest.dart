@@ -45,7 +45,7 @@ class STU_CreateRequestState extends State<STU_CreateRequest> {
               onPressed: () {
                 Navigator.of(context).pop();
               }),
-          title: Text("Create Flex Request"),
+          title: Text(Lang.trans('create_request_title')),
           backgroundColor: FlexColors.BF_PURPLE,
         ),
         backgroundColor: Colors.grey[300],
@@ -80,7 +80,7 @@ class STU_CreateRequestState extends State<STU_CreateRequest> {
                 textColor: Colors.white,
                 color: FlexColors.BF_PURPLE,
                 padding: EdgeInsets.symmetric(vertical: 12, horizontal: 26),
-                child: Text("CREATE", style: TextStyle(
+                child: Text(Lang.trans('create_button'), style: TextStyle(
                     fontSize: 16
                 )),
                 onPressed: () => create(),
@@ -94,16 +94,16 @@ class STU_CreateRequestState extends State<STU_CreateRequest> {
   void create() {
 
     if (fromClass == null)
-      showError("Pick a class to flex out of.");
+      showError(Lang.trans('no_from_class'));
     else if (toClass == null)
-      showError("Pick a class to flex into.");
+      showError(Lang.trans('no_to_class'));
     else if (fromClass.id == toClass.id)
-      showError("You can't flex in and out of the same class!");
+      showError(Lang.trans('from_is_to_class'));
     else {
       Database.create_request(fromClass, toClass, reasonController.text);
 
       STU_CurrentRequestState.scaffoldKey.currentState.showSnackBar(new SnackBar(
-        content: new Text("Request Created"),
+        content: new Text(Lang.trans('request_sent')),
       ));
       Navigator.of(context).pop();
     }
@@ -113,7 +113,7 @@ class STU_CreateRequestState extends State<STU_CreateRequest> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        Text("From", style: TextStyle(
+        Text(Lang.trans('from'), style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 22
         )),
@@ -132,8 +132,8 @@ class STU_CreateRequestState extends State<STU_CreateRequest> {
                   Icon(
                       fromClass == null ? Icons.help_outline : Icons.class_,
                       size: 50),
-                  Text(fromClass == null ? "Select a Class" : fromClass
-                      .class_name + "\n(P" + fromClass.period.toString() + ")", style: TextStyle(
+                  Text(fromClass == null ? Lang.trans('select_class') : fromClass
+                      .class_name + "\n(" + Lang.trans('period_prefix') + fromClass.period.toString() + ")", style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 18,
                   ), textAlign: TextAlign.center)
@@ -155,7 +155,7 @@ class STU_CreateRequestState extends State<STU_CreateRequest> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        Text("To", style: TextStyle(
+        Text(Lang.trans('to'), style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 22
         )),
@@ -174,8 +174,8 @@ class STU_CreateRequestState extends State<STU_CreateRequest> {
                   Icon(
                       toClass == null ? Icons.help_outline : Icons.class_,
                       size: 50),
-                  Text(toClass == null ? "Select a Class" : toClass
-                      .class_name + "\n(P" + toClass.period.toString() + ")", style: TextStyle(
+                  Text(toClass == null ? Lang.trans('select_class') : toClass
+                      .class_name + "\n(" + Lang.trans('period_prefix') + toClass.period.toString() + ")", style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 18,
                   ), textAlign: TextAlign.center)

@@ -18,12 +18,19 @@ class TEA_Classes extends StatefulWidget {
 
 class TEA_ClassesState extends State<TEA_Classes> {
   //20 char Limit
-  List<FlexClass> classes = Database.getClasses();
+  List<FlexClass> classes;
   List<Widget> listItems;
+
+  bool classNameAlreadyUsed(String name) {
+    for (FlexClass c in classes)
+      if (name == c.class_name)
+        return true;
+    return false;
+  }
 
   @override
   Widget build(BuildContext context) {
-    //requests = Database.getRequests(User.current.email);
+    classes = Database.getClasses();
     listItems = new List();
 
     for(FlexClass c in classes)

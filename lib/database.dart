@@ -7,6 +7,7 @@ import 'package:flex_out/TestData.dart' as TestData;
 import 'package:flex_out/Lang.dart';
 import 'package:flex_out/structures/Class.dart';
 import 'package:flex_out/structures/Teacher.dart';
+import 'package:flex_out/structures/Responce.dart';
 
 enum VerifyResults {ADMIN, TEACHER, STUDENT, NO_MATCH, DATABASE_ERROR}
 
@@ -48,7 +49,10 @@ class Database {
         : itype == 3 ? UserType.ADMIN
         : UserType.NONE;
 
-    User.current = User(email, 'F', "Lastname", "hashpass", type);
+    User.current = User(email, 'Brian', "Merrmans", "hashpass", type);
+
+    if (type != UserType.STUDENT)
+      Teacher.current = Teacher(0, "Mr", "Brian", "Merrmans");
 
     final storage = new FlutterSecureStorage();
 
@@ -111,7 +115,10 @@ class Database {
           : itype == 2 ? UserType.TEACHER
           : UserType.ADMIN;
 
-      User.current = User(email, 'F', "Lastname2", hashpass, type);
+      User.current = User(email, 'Brian', "Merrmans", hashpass, type);
+
+      if (type != UserType.STUDENT)
+        Teacher.current = Teacher(0, "Mr", "Brian", "Merrmans");
     }
     catch (e) {
       await storage.deleteAll();
@@ -179,5 +186,9 @@ class Database {
 
   static void delete_class(FlexClass c) {
     print("Database: Class Deleted");
+  }
+
+  static void respond(Request req, Responce res, String reason) {
+    print("Database: Responded");
   }
 }

@@ -8,6 +8,7 @@
   "database_error": "A Database Error occurred, try again later.",
   "no_connection": "Can't access the server, are you connected to the internet?",
   "empty_email_error": "Please enter an email address",
+  "empty_password_error": "Please enter a password",
   "forgot_password_dialog_ok_button": "OKAY",
   "forgot_password_dialog_what_email_button": "WHAT EMAIL?",
   "forgot_password_dialog_text": "An email has been sent to %email%. Click the reset link to reset your password.",
@@ -15,7 +16,9 @@
   
   "current_request_title": "Current Requests",
   "archived_title": "Archived Requests",
-  "classes_title":"Classes",
+  "classes_title": "Classes",
+  "create_request_title": "Create New Request",
+  "create_class_title": "Create a New Class",
 
   "multiselect_checkbox_tooltip": "Multi-Select",
   "new_request_button_tooltip": "Create New Request",
@@ -34,5 +37,36 @@
   "class_card_connecting_word": "to",
 
   "language_dialog_title": "Select a Langauge",
-  "apply_button":"APPLY"
+  "apply_button":"APPLY",
+
+  "teacher": "Teacher",
+  "period": "Period",
+  "period_prefix": "P",
+
+  "reason_field": "REASON",
+  "create_button": "CREATE",
+  "no_from_class": "Pick a class to Flex Out of",
+  "no_to_class": "Pick a class to Flex In to",
+  "from_is_to_class": "You can't flex in and out of the same class!",
+  "request_sent": "Request Sent",
+  "select_class": "Select a Class",
+
+
+  "class_name_field": "CLASS NAME",
+  "no_name_error": "Please enter a name",
+  "dublicate_neme_error": "You already used that class name",
+  "create_class_button": "Create",
+
+  "reason": "Reason",
+  "optional": "optional",
+  "done_button": "DONE",
+
+  "accept_button": "ACCEPT",
+  "deny_button": "DENY",
+  "accept_button_tooltip": "Accept",
+  "deny_button_tooltip": "Deny",
+
+  "you": "You", 
+  "from": "From",
+  "to": "To"
 }

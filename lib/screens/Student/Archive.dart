@@ -17,7 +17,6 @@ class STU_Archive extends StatefulWidget {
 }
 
 class STU_ArchiveState extends State<STU_Archive> {
-  //20 char Limit
   List<Request> requests = Database.getArchivedRequests();
   List<Widget> listItems;
 

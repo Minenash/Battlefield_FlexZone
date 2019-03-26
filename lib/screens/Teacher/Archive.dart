@@ -49,7 +49,7 @@ class TEA_ArchiveState extends State<TEA_Archive> {
       child: Container(
           alignment: secondary? Alignment.centerRight : Alignment.centerLeft,
           padding: secondary? EdgeInsets.only(right: 25) : EdgeInsets.only(left: 25),
-          child: Icon(Icons.unarchive)
+          child: Icon(Icons.unarchive, size: 35)
       ),
     );
   }

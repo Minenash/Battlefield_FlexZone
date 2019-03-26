@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flex_out/structures/Class.dart';
 import 'package:flex_out/FlexAssets.dart';
+import 'package:flex_out/Lang.dart';
 
 import 'package:flex_out/screens/Teacher/Classes.dart';
 
@@ -31,16 +32,16 @@ class TEA_ClassCard extends StatelessWidget {
                             Text(c.class_name, style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 18)),
                             SizedBox(height: 5),
-                            Text.rich(TextSpan(text: "Teacher: ",
+                            Text.rich(TextSpan(text: Lang.trans('teacher') + ": ",
                                 style: TextStyle(fontWeight: FontWeight.bold),
                                 children: [TextSpan(text: c.teacher.title_last(),
                                     style: TextStyle(
                                         fontWeight: FontWeight.normal))
                                 ])),
-                            Text.rich(TextSpan(text: "Period: ",
+                            Text.rich(TextSpan(text: Lang.trans('period') + ": ",
                                 style: TextStyle(fontWeight: FontWeight.bold),
                                 children: [
-                                  TextSpan(text: "P" + c.period.toString(),
+                                  TextSpan(text: Lang.trans('period_prefix') + c.period.toString(),
                                       style: TextStyle(
                                           fontWeight: FontWeight.normal))
                                 ])),

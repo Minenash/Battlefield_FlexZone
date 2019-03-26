@@ -5,6 +5,7 @@ import 'package:flex_out/structures/Teacher.dart';
 import 'package:flex_out/structures/Class.dart';
 import 'package:flex_out/SlideRoute.dart';
 import 'package:flex_out/database.dart';
+import 'package:flex_out/Lang.dart';
 
 import 'package:flex_out/screens/Student/JoinClass.dart';
 
@@ -43,7 +44,6 @@ class STU_TeacherCard extends StatelessWidget {
   }
 }
 
-
 class STU_TeacherClassCard extends StatelessWidget {
 
   final FlexClass c;
@@ -70,7 +70,7 @@ class STU_TeacherClassCard extends StatelessWidget {
                                 Text(c.class_name, style: TextStyle(
                                     fontWeight: FontWeight.bold, fontSize: 18)),
                                 SizedBox(height: 5),
-                                Text.rich(TextSpan(text: "Teacher: ",
+                                Text.rich(TextSpan(text: Lang.trans('teacher') + ": ",
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold),
                                     children: [
@@ -78,11 +78,11 @@ class STU_TeacherClassCard extends StatelessWidget {
                                           style: TextStyle(
                                               fontWeight: FontWeight.normal))
                                     ])),
-                                Text.rich(TextSpan(text: "Period: ",
+                                Text.rich(TextSpan(text: Lang.trans('period') + ": ",
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold),
                                     children: [
-                                      TextSpan(text: "P" + c.period.toString(),
+                                      TextSpan(text: Lang.trans('period_prefix') + c.period.toString(),
                                           style: TextStyle(
                                               fontWeight: FontWeight.normal))
                                     ])),
