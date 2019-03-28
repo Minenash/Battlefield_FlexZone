@@ -4,6 +4,7 @@ import 'package:flex_out/database.dart';
 import 'package:flex_out/structures/Request.dart';
 import 'package:flex_out/FlexAssets.dart';
 import 'package:flex_out/Lang.dart';
+import 'package:flex_out/main.dart';
 
 import 'package:flex_out/screens/Student/widgets/RequestCard.dart';
 import 'package:flex_out/screens/Student/widgets/RequestCard_Helper.dart';
@@ -17,18 +18,11 @@ class STU_Archive extends StatefulWidget {
 }
 
 class STU_ArchiveState extends State<STU_Archive> {
-  List<Request> requests = Database.getArchivedRequests();
+  List<Request> requests;
   List<Widget> listItems;
 
   @override
   Widget build(BuildContext context) {
-    //requests = Database.getArchivedRequests(User.current.email);
-    listItems = new List();
-    set_no_expandables(requests);
-
-    for(Request r in requests)
-      listItems.add(STU_RequestCard(r));
-
     return new Scaffold(
         appBar: AppBar(
           leading: MaterialButton(
@@ -38,7 +32,32 @@ class STU_ArchiveState extends State<STU_Archive> {
           backgroundColor: FlexColors.BF_PURPLE,
         ),
         backgroundColor: Colors.grey[300],
-        body: _buildListView()
+        body: FutureBuilder(
+          future: Database.getRequests(),
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            if (snapshot.hasData) {
+              requests = snapshot.data;
+
+              List<Request> toremove = new List();
+
+              for (Request r in requests)
+                if (!r.arch_stu)
+                  toremove.add(r);
+
+              for (Request r in toremove)
+                requests.remove(r);
+
+              listItems = new List();
+              set_no_expandables(requests);
+
+              for(Request r in requests)
+                listItems.add(STU_RequestCard(r));
+
+              return _buildListView();
+            }
+            return loading;
+          },
+        )
     );
   }
 

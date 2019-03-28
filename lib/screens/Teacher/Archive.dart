@@ -4,6 +4,7 @@ import 'package:flex_out/database.dart';
 import 'package:flex_out/structures/Request.dart';
 import 'package:flex_out/FlexAssets.dart';
 import 'package:flex_out/Lang.dart';
+import 'package:flex_out/TestData.dart' as TestData;
 
 import 'package:flex_out/screens/Teacher/widgets/RequestCard.dart';
 import 'package:flex_out/screens/Teacher/widgets/RequestCard_Helper.dart';
@@ -18,12 +19,12 @@ class TEA_Archive extends StatefulWidget {
 
 class TEA_ArchiveState extends State<TEA_Archive> {
   //20 char Limit
-  List<Request> requests = Database.getArchivedRequests();
+  List<Request> requests;
   List<Widget> listItems;
 
   @override
   Widget build(BuildContext context) {
-    //requests = Database.getArchivedRequests(User.current.email);
+    requests = TestData.getTestRequests();
     listItems = new List();
     set_no_expandables(requests);
 

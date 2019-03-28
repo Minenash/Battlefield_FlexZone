@@ -36,6 +36,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.1"
+  crypto:
+    dependency: transitive
+    description:
+      name: crypto
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.6"
   cupertino_icons:
     dependency: "direct main"
     description:
@@ -116,6 +123,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.9.6+2"
+  mysql1:
+    dependency: "direct main"
+    description:
+      name: mysql1
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.16.3"
   path:
     dependency: transitive
     description:
@@ -151,6 +165,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.1"
+  pool:
+    dependency: transitive
+    description:
+      name: pool
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.4.0"
   quiver:
     dependency: transitive
     description:

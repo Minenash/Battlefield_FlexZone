@@ -4,6 +4,7 @@ import 'package:flex_out/database.dart';
 import 'package:flex_out/FlexAssets.dart';
 import 'package:flex_out/Lang.dart';
 import 'package:flex_out/structures/Class.dart';
+import 'package:flex_out/main.dart';
 
 import 'package:flex_out/screens/Student/widgets/ClassCard.dart';
 
@@ -12,22 +13,15 @@ class STU_Classes extends StatefulWidget {
   final String title;
 
   @override
-  TEA_ClassesState createState() => TEA_ClassesState();
+  STU_ClassesState createState() => STU_ClassesState();
 }
 
-class TEA_ClassesState extends State<STU_Classes> {
-  //20 char Limit
-  List<FlexClass> classes = Database.getClasses();
+class STU_ClassesState extends State<STU_Classes> {
+  List<FlexClass> classes;
   List<Widget> listItems;
 
   @override
   Widget build(BuildContext context) {
-    //requests = Database.getRequests(User.current.email);
-    listItems = new List();
-
-    for(FlexClass c in classes)
-      listItems.add(STU_ClassCard(c,this));
-
     return new Scaffold(
         appBar: AppBar(
           leading: MaterialButton(
@@ -37,21 +31,33 @@ class TEA_ClassesState extends State<STU_Classes> {
           backgroundColor: FlexColors.BF_PURPLE,
         ),
         backgroundColor: Colors.grey[300],
-        body: ListView(children: listItems),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         backgroundColor: FlexColors.BF_PURPLE,
         foregroundColor: Colors.white,
         onPressed: () {Navigator.of(context).pushNamed('/stu/joinclass/teacher');},
       ),
+      body: FutureBuilder(
+        future: Database.getClasses(),
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          if (snapshot.hasData) {
+            classes = snapshot.data;
+            listItems = new List();
+
+            for(FlexClass c in classes)
+              listItems.add(STU_ClassCard(c,this));
+
+            return ListView(children: listItems);
+          }
+          return loading;
+        },
+      )
     );
   }
 
   void leave_class(FlexClass c) {
-    setState(() {
-      classes.remove(c);
-      Database.leave_class(c);
-    });
+    print("1");
+    Database.leave_class(c).then((_) {setState(() {});});
   }
 
 }

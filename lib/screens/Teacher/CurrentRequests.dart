@@ -6,6 +6,7 @@ import 'package:flex_out/structures/Request.dart';
 import 'package:flex_out/FlexAssets.dart';
 import 'package:flex_out/Lang.dart';
 import 'package:flex_out/structures/Responce.dart';
+import 'package:flex_out/TestData.dart' as TestData;
 
 import 'package:flex_out/screens/Teacher/widgets/RequestCardMultiSelect.dart';
 import 'package:flex_out/screens/Teacher/widgets/RequestCard.dart';
@@ -38,7 +39,7 @@ class TEA_CurrentRequestState extends State<TEA_CurrentRequest> {
 
   @override
   Widget build(BuildContext context) {
-    requests = Database.getRequests();
+    requests = TestData.getTestRequests();
     access = this;
     listItems = new List();
     set_no_expandables(requests);
@@ -47,8 +48,6 @@ class TEA_CurrentRequestState extends State<TEA_CurrentRequest> {
       return multiselect();
     else
       return normal();
-
-
   }
 
   Widget normal() {
@@ -56,7 +55,7 @@ class TEA_CurrentRequestState extends State<TEA_CurrentRequest> {
       listItems.add(TEA_RequestCard(r, access: this));
 
     return new Scaffold(
-      key: scaffoldKey,
+        key: scaffoldKey,
         appBar: AppBar(
           leading: Container(
             padding: EdgeInsets.only(left: 10),
@@ -75,7 +74,7 @@ class TEA_CurrentRequestState extends State<TEA_CurrentRequest> {
         floatingActionButton: FloatingActionButton(
           tooltip: Lang.trans('new_request_button_tooltip'),
           child: const Icon(Icons.class_),
-            onPressed: () {Navigator.of(context).pushNamed('/tea/classes');},
+          onPressed: () {Navigator.of(context).pushNamed('/tea/classes');},
           backgroundColor: FlexColors.BF_PURPLE,),
         bottomNavigationBar: BottomAppBar(
           shape: CircularNotchedRectangle(),
@@ -184,7 +183,7 @@ class TEA_CurrentRequestState extends State<TEA_CurrentRequest> {
       listItems.add(TEA_RequestCardMS(r));
     }
     return new Scaffold(
-      key: scaffoldKey,
+        key: scaffoldKey,
         appBar: AppBar(
           leading: Container(
             padding: EdgeInsets.only(left: 10),
@@ -208,7 +207,7 @@ class TEA_CurrentRequestState extends State<TEA_CurrentRequest> {
           tooltip: Lang.trans('new_request_button_tooltip'),
           child: const Icon(Icons.class_),
           onPressed: () {
-             Navigator.of(context).pushNamed('/tea/classes');
+            Navigator.of(context).pushNamed('/tea/classes');
           },
           backgroundColor: FlexColors.BF_PURPLE,),
         bottomNavigationBar: BottomAppBar(

@@ -3,7 +3,7 @@ import 'package:flex_out/structures/Class.dart';
 import 'package:flex_out/structures/Responce.dart';
 import 'package:flex_out/structures/Teacher.dart';
 
-List<Request> getTestRequests(String email) {
+List<Request> getTestRequests() {
   List<Request> requests = new List();
   requests.add(new Request(
       0,
@@ -19,7 +19,7 @@ List<Request> getTestRequests(String email) {
       "12:34 AM",
       null,
       "lol",
-      null));
+      null, false, false, false));
 
   requests.add(new Request(
       1,
@@ -35,7 +35,7 @@ List<Request> getTestRequests(String email) {
       "12:34 AM",
       "99/99/99",
       null,
-      null));
+      null, false, false, false));
 
   requests.add(new Request(
       2,
@@ -51,12 +51,12 @@ List<Request> getTestRequests(String email) {
       "12:34 AM",
       "Yesterday",
       "lol",
-      null));
+      null, false, false, false));
 
   return requests;
 }
 
-List<FlexClass> getTestClasses(String email) {
+List<FlexClass> getTestClasses() {
   List<FlexClass> classes = new List();
 
   classes.add(new FlexClass(0, 1, "Earth Science", Teacher(1,"Mr.", "Eric", "Maskelak")));

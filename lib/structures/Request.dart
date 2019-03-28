@@ -21,9 +21,13 @@ class Request {
   String from_reason;
   String to_reason;
 
+  bool arch_stu;
+  bool arch_from;
+  bool arch_to;
+
   Request(this.id, this.timestamp, this.student_name, this.description,
          this.deniable, this.cancelled, this.from, this.to, this.from_responce, this.to_responce,
-         this.from_time, this.to_time, this.from_reason, this.to_reason);
+         this.from_time, this.to_time, this.from_reason, this.to_reason, this.arch_stu, this.arch_from, this.arch_to);
 
   @override
   String toString() {

@@ -4,6 +4,7 @@ import 'package:flex_out/database.dart';
 import 'package:flex_out/FlexAssets.dart';
 import 'package:flex_out/Lang.dart';
 import 'package:flex_out/structures/Class.dart';
+import 'package:flex_out/TestData.dart' as TestData;
 
 import 'package:flex_out/screens/Teacher/widgets/ClassCard.dart';
 import 'package:flex_out/screens/Teacher/widgets/NewClass.dart';
@@ -30,7 +31,7 @@ class TEA_ClassesState extends State<TEA_Classes> {
 
   @override
   Widget build(BuildContext context) {
-    classes = Database.getClasses();
+    classes = TestData.getTestClasses();
     listItems = new List();
 
     for(FlexClass c in classes)

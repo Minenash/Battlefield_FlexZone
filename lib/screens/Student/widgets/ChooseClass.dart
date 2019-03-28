@@ -4,6 +4,7 @@ import 'package:flex_out/database.dart';
 import 'package:flex_out/FlexAssets.dart';
 import 'package:flex_out/Lang.dart';
 import 'package:flex_out/structures/Class.dart';
+import 'package:flex_out/main.dart';
 
 import 'package:flex_out/screens/Student/CreateRequest.dart';
 
@@ -19,7 +20,7 @@ class STU_ChooseClass extends StatefulWidget {
 
 class STU_ChooseClassState extends State<STU_ChooseClass> {
   //20 char Limit
-  List<FlexClass> classes = Database.getClasses();
+  List<FlexClass> classes = null;// Database.getClasses();
   List<Widget> listItems;
   STU_CreateRequestState parent;
   bool index;
@@ -28,12 +29,6 @@ class STU_ChooseClassState extends State<STU_ChooseClass> {
 
   @override
   Widget build(BuildContext context) {
-    //requests = Database.getRequests(User.current.email);
-    listItems = new List();
-
-    for(FlexClass c in classes)
-      listItems.add(STU_ChooseClassCard(c, this));
-
     return new Scaffold(
       appBar: AppBar(
         leading: MaterialButton(
@@ -43,7 +38,21 @@ class STU_ChooseClassState extends State<STU_ChooseClass> {
         backgroundColor: FlexColors.BF_PURPLE,
       ),
       backgroundColor: Colors.grey[300],
-      body: ListView(children: listItems),
+      body: FutureBuilder(
+        future: Database.getClasses(),
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          if (snapshot.hasData) {
+            classes = snapshot.data;
+            listItems = new List();
+
+            for(FlexClass c in classes)
+              listItems.add(STU_ChooseClassCard(c, this));
+
+            return ListView(children: listItems);
+          }
+          return loading;
+        },
+      ),
     );
   }
 

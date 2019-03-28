@@ -127,7 +127,7 @@ class _LoginScreenState extends State<LoginScreen> {
         ));
   }
 
-  void login() {
+  void login() async {
 
     FocusScope.of(context).requestFocus(new FocusNode());
 
@@ -137,20 +137,19 @@ class _LoginScreenState extends State<LoginScreen> {
       return;
     }
 
-    VerifyResults result = Database.verify_login(emailController.text, passController.text);
+    VerifyResults result = await Database.verify_login(emailController.text, passController.text);
+
+    print(result);
 
     switch (result) {
       case VerifyResults.NO_MATCH:        showError(Lang.trans('wrong_credentials')); break;
       case VerifyResults.DATABASE_ERROR:  showError(Lang.trans('database_error'));    break;
 
-      case VerifyResults.STUDENT:         Database.setCurrentUser(emailController.text, passController.text, 1);
-                                          Navigator.of(context).pushReplacementNamed('/stu/current');    break;
+      case VerifyResults.STUDENT:         Navigator.of(context).pushReplacementNamed('/stu/current');    break;
 
-      case VerifyResults.TEACHER:         Database.setCurrentUser(emailController.text, passController.text, 2);
-                                          Navigator.of(context).pushReplacementNamed('/tea/current');     break;
+      case VerifyResults.TEACHER:         Navigator.of(context).pushReplacementNamed('/tea/current');     break;
 
-      case VerifyResults.ADMIN:           Database.setCurrentUser(emailController.text, passController.text, 3);
-                                          Navigator.of(context).pushReplacementNamed('/adm/current');     break;
+      case VerifyResults.ADMIN:           Navigator.of(context).pushReplacementNamed('/tea/current');     break;
 
       default:                            showError(Lang.trans('no_connection'));
     }

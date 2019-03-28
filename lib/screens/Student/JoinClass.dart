@@ -5,21 +5,17 @@ import 'package:flex_out/FlexAssets.dart';
 import 'package:flex_out/Lang.dart';
 import 'package:flex_out/structures/Class.dart';
 import 'package:flex_out/structures/Teacher.dart';
+import 'package:flex_out/main.dart';
 
 import 'package:flex_out/screens/Student/widgets/TeacherCard.dart';
 
 class STU_JoinClass_Teacher extends StatelessWidget {
   //20 char Limit
-  List<Teacher> teachers = Database.getTeachers();
+  List<Teacher> teachers;
   List<Widget> listItems;
 
   @override
   Widget build(BuildContext context) {
-    listItems = new List();
-
-    for(Teacher t in teachers)
-      listItems.add(STU_TeacherCard(t,context));
-
     return new Scaffold(
       appBar: AppBar(
         leading: MaterialButton(
@@ -29,7 +25,21 @@ class STU_JoinClass_Teacher extends StatelessWidget {
         backgroundColor: FlexColors.BF_PURPLE,
       ),
       backgroundColor: Colors.grey[300],
-      body: ListView(children: listItems),
+      body: FutureBuilder(
+        future: Database.getTeachers(),
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          if (snapshot.hasData) {
+            teachers = snapshot.data;
+            listItems = new List();
+
+            for(Teacher t in teachers)
+              listItems.add(STU_TeacherCard(t,context));
+
+            return ListView(children: listItems);
+          }
+          return loading;
+        },
+      )
     );
   }
 
@@ -38,20 +48,15 @@ class STU_JoinClass_Teacher extends StatelessWidget {
 class STU_JoinClass_Class extends StatelessWidget{
   //20 char Limit
   List<FlexClass> classes;
+  Teacher teacher;
   List<Widget> listItems;
 
   STU_JoinClass_Class(Teacher teacher) {
-    classes = Database.getTeacherClasses(teacher);
+    this.teacher = teacher;
   }
 
   @override
   Widget build(BuildContext context) {
-    //requests = Database.getRequests(User.current.email);
-    listItems = new List();
-
-    for(FlexClass c in classes)
-      listItems.add(STU_TeacherClassCard(c));
-
     return new Scaffold(
       appBar: AppBar(
         leading: MaterialButton(
@@ -61,7 +66,21 @@ class STU_JoinClass_Class extends StatelessWidget{
         backgroundColor: FlexColors.BF_PURPLE,
       ),
       backgroundColor: Colors.grey[300],
-      body: ListView(children: listItems),
+      body: FutureBuilder(
+        future: Database.getTeacherClasses(teacher),
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          if (snapshot.hasData) {
+            classes = snapshot.data;
+            listItems = new List();
+
+            for(FlexClass c in classes)
+              listItems.add(STU_TeacherClassCard(c));
+
+            return ListView(children: listItems);
+          }
+          return loading;
+        },
+      )
     );
   }
 

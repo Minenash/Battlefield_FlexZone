@@ -1,6 +1,7 @@
 import 'dart:collection';
 import 'package:flutter/material.dart';
 
+import 'package:flex_out/main.dart';
 import 'package:flex_out/database.dart';
 import 'package:flex_out/structures/Request.dart';
 import 'package:flex_out/FlexAssets.dart';
@@ -26,7 +27,7 @@ class STU_CurrentRequestState extends State<STU_CurrentRequest> {
   static STU_CurrentRequestState access;
   static GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
   //20 char Limit
-  List<Request> requests = Database.getRequests();
+  List<Request> requests;
   List<Widget> listItems;
 
   Queue<Request> recently_archived = new Queue();
@@ -36,10 +37,8 @@ class STU_CurrentRequestState extends State<STU_CurrentRequest> {
 
   @override
   Widget build(BuildContext context) {
-    //requests = Database.getRequests(User.current.email);
     access = this;
-    listItems = new List();
-    set_no_expandables(requests);
+    requests = new List();
 
     if (ms_enabled)
       return multiselect();
@@ -50,9 +49,6 @@ class STU_CurrentRequestState extends State<STU_CurrentRequest> {
   }
 
   Widget normal() {
-    for(Request r in requests)
-      listItems.add(STU_RequestCard(r));
-
     return new Scaffold(
       key: scaffoldKey,
         appBar: AppBar(
@@ -90,7 +86,34 @@ class STU_CurrentRequestState extends State<STU_CurrentRequest> {
           ),
         ),
         backgroundColor: Colors.grey[300],
-        body: _buildListView()
+        body: FutureBuilder(
+          future: Database.getRequests(),
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            if (snapshot.hasData) {
+              if (ms_backup == null)
+                requests = snapshot.data;
+
+              List<Request> toremove = new List();
+
+              for (Request r in requests)
+                if (r.arch_stu)
+                  toremove.add(r);
+
+              for (Request r in toremove)
+                requests.remove(r);
+
+
+              listItems = new List();
+              set_no_expandables(requests);
+
+              for(Request r in requests)
+                listItems.add(STU_RequestCard(r));
+
+              return _buildListView();
+            }
+            return loading;
+          },
+        )
     );
   }
 
@@ -169,9 +192,6 @@ class STU_CurrentRequestState extends State<STU_CurrentRequest> {
   }
 
   Widget multiselect() {
-    for(Request r in requests) {
-      listItems.add(STU_RequestCardMS(r));
-    }
     return new Scaffold(
       key: scaffoldKey,
         appBar: AppBar(
@@ -208,7 +228,32 @@ class STU_CurrentRequestState extends State<STU_CurrentRequest> {
           ),
         ),
         backgroundColor: Colors.grey[300],
-        body: ListView(children: listItems)
+        body: FutureBuilder(
+          future: Database.getRequests(),
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            if (snapshot.hasData) {
+              requests = snapshot.data;
+
+              List<Request> toremove = new List();
+
+              for (Request r in requests)
+                if (r.arch_stu || recently_archived.contains(r))
+                  toremove.add(r);
+
+              for (Request r in toremove)
+                requests.remove(r);
+
+              listItems = new List();
+              set_no_expandables(requests);
+
+              for(Request r in requests)
+                listItems.add(STU_RequestCardMS(r));
+
+              return ListView(children: listItems);
+            }
+            return loading;
+          },
+        )
     );
   }
 
@@ -268,19 +313,17 @@ class STU_CurrentRequestState extends State<STU_CurrentRequest> {
 
   void archiveItem(Request request, {bool cancel}){
     int index = requests.indexOf(request);
-    setState((){
       recently_archived.addLast(request);
       recently_archived_index.addLast(index);
       requests.remove(request);
-    });
     Future.delayed(new Duration(milliseconds: 4500), () {
       if (!recently_archived.contains(request))
         return;
       recently_archived.remove(request);
       recently_archived_index.remove(index);
-      if (cancel)
-        Database.cancel(request);
-      Database.archive(request);
+        if (cancel)
+          Database.cancel(request);
+        Database.archive(request);
     });
   }
 
@@ -310,6 +353,7 @@ class STU_CurrentRequestState extends State<STU_CurrentRequest> {
     return ListView.builder(
       itemCount: listItems.length,
       itemBuilder: (context, index) {
+        //print(listItems.length.toString() + " | " + index.toString());
         return Dismissible(
           background: _dismiss(requests[index],false),
           secondaryBackground: _dismiss(requests[index],true),

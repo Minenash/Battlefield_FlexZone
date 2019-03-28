@@ -9,7 +9,7 @@ import 'package:flex_out/screens/Student/Classes.dart';
 class STU_ClassCard extends StatelessWidget {
   
   final FlexClass c;
-  final TEA_ClassesState parent;
+  final STU_ClassesState parent;
   
   STU_ClassCard(this.c, this.parent);
 

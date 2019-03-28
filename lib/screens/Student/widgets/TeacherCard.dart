@@ -95,10 +95,11 @@ class STU_TeacherClassCard extends StatelessWidget {
                 )
             ),
           onTap: () {
-              Database.add_class(c);
-            Navigator.of(context).pop();
-            Navigator.of(context).pop();
-            Navigator.of(context).pushReplacementNamed('/stu/classes');
+              Database.add_class(c).then((_) {
+                Navigator.of(context).pop();
+                Navigator.of(context).pop();
+                Navigator.of(context).pushReplacementNamed('/stu/classes');
+              });
           },
         )
     );

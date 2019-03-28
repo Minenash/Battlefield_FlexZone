@@ -6,6 +6,8 @@ class FlexIcons {
   static const BACK_ARROW = Icon(Icons.arrow_back, color: Colors.white, size: 25);
   static const BACK_CARET = Icon(Icons.navigate_before, size: 30, color: Colors.white);
 
+  static const NO_CONNECTION = Icon(IconData(0xe900, fontFamily: 'custom_icons'), color: Colors.black, size: 120);
+
   static const APPROVED = Icon(Icons.done, color: Colors.green);
   static const DENIED = Icon(Icons.close, color: Colors.red);
   static const WAITING = Icon(Icons.alarm, color: Colors.blueGrey);
